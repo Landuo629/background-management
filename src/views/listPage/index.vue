@@ -198,7 +198,7 @@ export default {
     resetForm(formName) {
       this.$refs[formName].resetFields()
     },
-    // 查看
+    // 详情
     handleClick(val) {
       this.$router.push(`/userDetail?operate=check&id=${val.id}`)
     },
@@ -222,18 +222,12 @@ export default {
     // 编辑
     edit(val) {
       this.$router.push(`/listPageDetail?operate=edit&id=${val.id}`)
-    },
-    handleSuccess(val) {
-      const { code, msg } = val
-      code === 10000 ? this.$message.success(msg) : this.$message.error(msg)
-      this.$refs.upload.clearFiles()
-      this.onSearch()
     }
   }
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .operate {
   margin-bottom: 10px;
   .import {

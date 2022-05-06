@@ -14,6 +14,7 @@
 </template>
 
 <script>
+import getPageTitle from '@/utils/get-page-title'
 export default {
   name: 'SidebarLogo',
   props: {
@@ -24,8 +25,12 @@ export default {
   },
   data() {
     return {
-      title: '中德制造业研修院后台管理系统',
       logo: ''
+    }
+  },
+  computed: {
+    title() {
+      return getPageTitle()
     }
   }
 }

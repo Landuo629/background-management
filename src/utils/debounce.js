@@ -6,21 +6,21 @@
  * @return {function}
  */
 export function debounce(fn, wait = 300, immediate = false) {
-  let timer = null;
+  let timer = null
 
   // 返回一个函数
   return function() {
     // 是否要立即执行一次
-    if (!timer && immediate) fn.apply(this, arguments);
+    if (!timer && immediate) fn.apply(this, arguments)
 
     // 每次触发事件时都取消之前的定时器
-    clearTimeout(timer);
+    clearTimeout(timer)
 
     // setTimeout 中使用箭头函数，就是让 this指向 返回的该闭包函数，而不是 debounce函数 的调用者
     timer = setTimeout(() => {
-      fn.apply(this, arguments);
-    }, wait);
-  };
+      fn.apply(this, arguments)
+    }, wait)
+  }
 }
 
 // js使用方法

@@ -2,7 +2,7 @@ const Mock = require('mockjs')
 let data
 try {
   Mock.setup({ // 模拟网络延迟
-    timeout: '1000-1500'
+    timeout: '500-1000'
   })
 
   data = Mock.mock({

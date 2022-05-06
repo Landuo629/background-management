@@ -29,8 +29,8 @@
           </a> -->
           <el-dropdown-item
             divided
-            @click.native="logout"
             style="border: none; margin: 0"
+            @click.native="logout"
           >
             <span style="display: block">退出</span>
           </el-dropdown-item>
@@ -41,31 +41,31 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
-import Breadcrumb from "@/components/Breadcrumb";
-import Hamburger from "@/components/Hamburger";
-import { getToken, setToken, removeToken } from "@/utils/auth";
-import { logout } from "@/api/adminLoginController";
+import { mapGetters } from 'vuex'
+import Breadcrumb from '@/components/Breadcrumb'
+import Hamburger from '@/components/Hamburger'
+import { removeToken } from '@/utils/auth'
+import { logout } from '@/api/adminLoginController'
 
 export default {
   components: {
     Breadcrumb,
-    Hamburger,
+    Hamburger
   },
   computed: {
-    ...mapGetters(["sidebar", "avatar", "name"]),
+    ...mapGetters(['sidebar', 'avatar', 'name'])
   },
   methods: {
     toggleSideBar() {
-      this.$store.dispatch("app/toggleSideBar");
+      this.$store.dispatch('app/toggleSideBar')
     },
     async logout() {
-      await logout();
-      removeToken();
-      this.$router.replace(`/login?redirect=${this.$route.fullPath}`);
-    },
-  },
-};
+      await logout()
+      removeToken()
+      this.$router.replace(`/login?redirect=${this.$route.fullPath}`)
+    }
+  }
+}
 </script>
 
 <style lang="scss" scoped>

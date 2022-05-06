@@ -7,29 +7,29 @@
  */
 export function throttle(fn, wait = 300) {
   // 设置一个定时器
-  let timer = null;
+  let timer = null
 
   // 记录上一次执行的时间戳
-  let previous = 0;
+  let previous = 0
 
   return function() {
     // 当前的时间戳，然后减去之前的时间戳，大于设置的时间间隔
     if (Date.now() - previous > wait) {
-      clearTimeout(timer);
-      timer = null;
+      clearTimeout(timer)
+      timer = null
 
       // 更新上一次的时间戳为当前时间戳
-      previous = Date.now();
+      previous = Date.now()
 
-      fn.apply(this, arguments);
+      fn.apply(this, arguments)
     } else if (!timer) {
       // 设置下一个定时器
       timer = setTimeout(() => {
-        timer = null;
-        fn.apply(this, arguments);
-      }, wait);
+        timer = null
+        fn.apply(this, arguments)
+      }, wait)
     }
-  };
+  }
 }
 
 // js使用方法

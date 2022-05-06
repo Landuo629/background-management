@@ -15,7 +15,6 @@ import router from './router'
 import '@/icons' // icon
 
 import '@/permission' // 权限判断指令
-
 import permission from '@/directive/permission/index.js' // 权限判断指令
 Vue.directive('permission', permission)
 
@@ -25,6 +24,7 @@ Vue.use(ElementUI, { locale })
 // Vue.use(ElementUI)
 
 if (process.env.NODE_ENV === 'production') {
+  // mock 环境
   const { mockXHR } = require('../mock')
   mockXHR()
 }

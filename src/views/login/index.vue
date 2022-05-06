@@ -66,8 +66,8 @@ export default {
   data() {
     return {
       loginForm: {
-        userName: 'superAdmin',
-        password: 'admin123'
+        userName: 'admin',
+        password: '123456'
       },
       loginRules: {
         userName: [{ required: true, message: '请输入用户名', trigger: 'blur' }],
@@ -110,6 +110,7 @@ export default {
               adminType === 0 ? ['admin'] : ['superAdmin']
             )
             this.$router.push({ path: this.redirect || '/' })
+            this.loading = false
           } catch (err) {
             this.loading = false
           }

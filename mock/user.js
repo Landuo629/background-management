@@ -1,7 +1,8 @@
 
 const tokens = {
   admin: {
-    token: 'admin-token'
+    token: 'admin-token',
+    userName: 'admin'
   },
   editor: {
     token: 'editor-token'
@@ -64,7 +65,7 @@ module.exports = [
       }
 
       return {
-        code: 20000,
+        code: 10000,
         data: info
       }
     }
@@ -72,11 +73,11 @@ module.exports = [
 
   // user logout
   {
-    url: '/vue-admin-template/user/logout',
-    type: 'post',
+    url: '/admin/logout',
+    type: 'get',
     response: _ => {
       return {
-        code: 20000,
+        code: 10000,
         data: 'success'
       }
     }
