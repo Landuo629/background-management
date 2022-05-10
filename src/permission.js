@@ -5,14 +5,16 @@ import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
 import { getToken, removeToken } from '@/utils/auth'
 import getPageTitle from '@/utils/get-page-title'
+import { routingMode } from '@/settings'
 
 NProgress.configure({ showSpinner: false }) // 进度条配置
 
 const whiteList = ['/login'] // 重定向白名单
-// let mark = false // 加载动态路由标识
+let routingMark = false // 加载动态路由标识
 
 // 全局路由守卫前置钩子
 router.beforeEach(async(to, from, next) => {
+  console.log(store.getters.routes, 'store.getters.routers')
   NProgress.start()
   document.title = getPageTitle(to.meta.title)
   const hasToken = getToken()
@@ -23,12 +25,10 @@ router.beforeEach(async(to, from, next) => {
       NProgress.done()
     } else {
       try {
-        // if (!mark) {
-        //   await routerLoading();
-        //   next({ ...to, replace: true }); // hack方法 确保addRoutes已完成
-        // } else {
-        //   next();
-        // }
+        if (!routingMark && routingMode === 1) {
+          await routerLoading()
+          next({ ...to, replace: true }) // hack方法 确保addRoutes已完成
+        }
         next()
       } catch (error) {
         Message.error(error || 'Has Error')
@@ -40,7 +40,7 @@ router.beforeEach(async(to, from, next) => {
   } else {
     /* has no token*/
     if (whiteList.includes(to.path)) {
-      // mark = false
+      // routingMark = false
       next()
     } else {
       Message.error('登陆失效，请重新登录！')
@@ -62,8 +62,7 @@ async function routerLoading() {
     'permission/generateRoutes',
     store.getters.roles
   )
-  console.log(accessRoutes)
   router.addRoutes(accessRoutes)
   router.options.routes = store.getters.permission_routes // 第三步
-  mark = true
+  routingMark = true
 }

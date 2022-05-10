@@ -58,7 +58,7 @@
 </template>
 
 <script>
-import { login } from '@/api/adminLoginController'
+import { login } from '@/api/user'
 import { setToken } from '@/utils/auth'
 
 export default {
@@ -101,14 +101,12 @@ export default {
           this.loading = true
           try {
             const {
-              data: { token, userName, adminType }
+              data: { token, userName, routingTable }
             } = await login(this.loginForm)
             setToken(token)
             this.$store.dispatch('user/SET_NAME', userName)
-            await this.$store.dispatch(
-              'user/SET_ROLES',
-              adminType === 0 ? ['admin'] : ['superAdmin']
-            )
+            await this.$store.dispatch('user/SET_ROLES', [userName]) // 角色是一个数组
+            this.$store.commit('routers/SET_ROUTES', routingTable)
             this.$router.push({ path: this.redirect || '/' })
             this.loading = false
           } catch (err) {

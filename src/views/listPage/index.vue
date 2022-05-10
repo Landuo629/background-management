@@ -116,7 +116,6 @@
         >
           <template slot-scope="scope">
             <el-button
-              v-permission="['superAdmin']"
               type="text"
               size="small"
               @click="edit(scope.row)"

@@ -1,3 +1,4 @@
+import { handlerRoutes } from '@/utils/handlerRoutes'
 const getters = {
   sidebar: (state) => state.app.sidebar,
   device: (state) => state.app.device,
@@ -6,5 +7,6 @@ const getters = {
   name: (state) => state.user.name,
   roles: (state) => state.user.roles,
   permission_routes: (state) => state.permission.routes
+  // routes: state => handlerRoutes(state.routers.routes)
 }
 export default getters

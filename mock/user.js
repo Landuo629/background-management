@@ -2,7 +2,33 @@
 const tokens = {
   admin: {
     token: 'admin-token',
-    userName: 'admin'
+    userName: 'admin',
+    routingTable: [{
+      path: '/listPage',
+      component: 'Layout',
+      redirect: '/listPage',
+      name: 'listPage',
+      children: [{
+        path: '/listPage',
+        name: 'listPage',
+        component: '/listPage/index',
+        meta: {
+          title: '列表测试页',
+          icon: 'orderManage'
+        }
+      },
+      {
+        path: '/listPageDetail',
+        name: 'listPageDetail',
+        component: '/listPage/detail',
+        meta: {
+          title: '列表测试页详情页',
+          icon: ''
+        },
+        hidden: true
+      }
+      ]
+    }]
   },
   editor: {
     token: 'editor-token'

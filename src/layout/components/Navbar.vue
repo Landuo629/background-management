@@ -45,7 +45,7 @@ import { mapGetters } from 'vuex'
 import Breadcrumb from '@/components/Breadcrumb'
 import Hamburger from '@/components/Hamburger'
 import { removeToken } from '@/utils/auth'
-import { logout } from '@/api/adminLoginController'
+import { logout } from '@/api/user'
 
 export default {
   components: {

@@ -1,10 +1,10 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-// import asyncRoutes1 from './asyncRoutes'
+import asyncRoutes1 from './asyncRoutes'
 import Layout from '@/layout'
 
 Vue.use(Router)
-export const asyncRoutes = []
+export const asyncRoutes = asyncRoutes1
 /**
  * constantRoutes
  * a base page that does not have permission requirements
@@ -17,7 +17,7 @@ export const constantRoutes = [
     redirect: '/dashboard',
     children: [
       {
-        path: 'dashboard',
+        path: '/dashboard',
         name: 'dashboard',
         component: () => import('@/views/dashboard/index'),
         meta: { title: '首页', icon: 'homePage' }
@@ -29,25 +29,26 @@ export const constantRoutes = [
     component: Layout,
     redirect: '/listPage',
     name: 'listPage',
-    children: [{
-      path: '/listPage',
-      name: 'listPage',
-      component: () => import('@/views/listPage/index'),
-      meta: {
-        title: '列表测试页',
-        icon: 'orderManage'
-      }
-    },
-    {
-      path: '/listPageDetail',
-      name: 'listPageDetail',
-      component: () => import('@/views/listPage/detail'),
-      meta: {
-        title: '列表测试页详情页',
-        icon: ''
+    children: [
+      {
+        path: '/listPage',
+        name: 'listPage',
+        component: () => import('@/views/listPage/index'),
+        meta: {
+          title: '列表测试页',
+          icon: 'orderManage'
+        }
       },
-      hidden: true
-    }
+      {
+        path: '/listPageDetail',
+        name: 'listPageDetail',
+        component: () => import('@/views/listPage/detail'),
+        meta: {
+          title: '列表测试页详情页',
+          icon: ''
+        },
+        hidden: true
+      }
     ]
   },
   {
@@ -57,7 +58,7 @@ export const constantRoutes = [
   },
 
   {
-    path: '/404',
+    path: '*',
     component: () => import('@/views/404'),
     hidden: true
   }
