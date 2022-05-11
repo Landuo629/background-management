@@ -1,4 +1,5 @@
-import Layout from '@/layout'
+// import Layout from '@/layout'
+const Layout = () => import('@/layout')
 export default [{
   path: '/listPage',
   component: Layout,
@@ -26,10 +27,5 @@ export default [{
     hidden: true
   }
   ]
-},
-{
-  path: '*',
-  redirect: '/404',
-  hidden: true
 }
 ]

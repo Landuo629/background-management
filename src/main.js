@@ -14,7 +14,7 @@ import router from './router'
 
 import '@/icons' // icon
 
-// import '@/permission' // 全局路由守卫
+import '@/permission' // 全局路由守卫
 import permission from '@/directive/permission/index.js' // 权限判断指令
 Vue.directive('permission', permission)
 

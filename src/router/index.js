@@ -1,15 +1,16 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import asyncRoutes1 from './asyncRoutes'
-import Layout from '@/layout'
+import routes404 from './404routes'
+import { routingMode } from '@/settings'
 
+// import Layout from '@/layout/index'
+const Layout = () => import('@/layout')
 Vue.use(Router)
 export const asyncRoutes = asyncRoutes1
-/**
- * constantRoutes
- * a base page that does not have permission requirements
- * all roles can be accessed
- */
+
+const statusRoutes = routingMode === 0 ? routes404 : []
+
 export const constantRoutes = [
   {
     path: '/',
@@ -24,44 +25,39 @@ export const constantRoutes = [
       }
     ]
   },
-  {
-    path: '/listPage',
-    component: Layout,
-    redirect: '/listPage',
-    name: 'listPage',
-    children: [
-      {
-        path: '/listPage',
-        name: 'listPage',
-        component: () => import('@/views/listPage/index'),
-        meta: {
-          title: '列表测试页',
-          icon: 'orderManage'
-        }
-      },
-      {
-        path: '/listPageDetail',
-        name: 'listPageDetail',
-        component: () => import('@/views/listPage/detail'),
-        meta: {
-          title: '列表测试页详情页',
-          icon: ''
-        },
-        hidden: true
-      }
-    ]
-  },
+  // {
+  //   path: '/listPage',
+  //   component: Layout,
+  //   redirect: '/listPage',
+  //   name: 'listPage',
+  //   children: [
+  //     {
+  //       path: '/listPage',
+  //       name: 'listPage',
+  //       component: () => import('@/views/listPage/index'),
+  //       meta: {
+  //         title: '列表测试页',
+  //         icon: 'orderManage'
+  //       }
+  //     },
+  //     {
+  //       path: '/listPageDetail',
+  //       name: 'listPageDetail',
+  //       component: () => import('@/views/listPage/detail'),
+  //       meta: {
+  //         title: '列表测试页详情页',
+  //         icon: ''
+  //       },
+  //       hidden: true
+  //     }
+  //   ]
+  // },
   {
     path: '/login',
     component: () => import('@/views/login/index'),
     hidden: true
   },
-
-  {
-    path: '*',
-    component: () => import('@/views/404'),
-    hidden: true
-  }
+  ...statusRoutes
 ]
 
 const createRouter = () =>

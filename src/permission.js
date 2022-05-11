@@ -26,7 +26,11 @@ router.beforeEach(async(to, from, next) => {
     } else {
       try {
         if (!routingMark && routingMode === 1) {
-          await routerLoading()
+          await routerLoading1()
+          next({ ...to, replace: true }) // hack方法 确保addRoutes已完成
+        }
+        if (!routingMark && routingMode === 2) {
+          await routerLoading2()
           next({ ...to, replace: true }) // hack方法 确保addRoutes已完成
         }
         next()
@@ -56,13 +60,21 @@ router.afterEach(() => {
   NProgress.done()
 })
 
-// 加载路由
-async function routerLoading() {
+// 加载路由方式1
+async function routerLoading1() {
   const accessRoutes = await store.dispatch(
     'permission/generateRoutes',
     store.getters.roles
   )
   router.addRoutes(accessRoutes)
-  router.options.routes = store.getters.permission_routes // 第三步
+  router.options.routes = store.getters.permission_routes
+  routingMark = true
+}
+
+// 加载路由方式2
+async function routerLoading2() {
+  const { addRoutes, routes } = store.getters
+  router.addRoutes(addRoutes)
+  router.options.routes = routes
   routingMark = true
 }

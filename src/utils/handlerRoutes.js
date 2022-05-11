@@ -1,4 +1,5 @@
-import Layout from '@/layout'
+// import Layout from '@/layout'
+const Layout = () => import('@/layout')
 export function handlerRoutes(routes) {
   // return routes.map(item => {
   //   item.component = Layout
