@@ -91,7 +91,7 @@
           :show-overflow-tooltip="showOverflowTooltip"
           align="center"
           label="图片"
-          min-width="120"
+          width="150"
         >
           <template slot-scope="scope">
             <img :src="scope.row.image">
@@ -112,7 +112,7 @@
           fixed="right"
           align="center"
           label="操作"
-          min-width="200"
+          width="200"
         >
           <template slot-scope="scope">
             <el-button
@@ -158,7 +158,7 @@ import minix from '@/utils/minix'
 import {
   getuserList,
   deleteUser
-} from '@/api/UserInformation'
+} from '@/api/table'
 
 export default {
   name: 'ListPage',

@@ -1,5 +1,5 @@
 const myMinix = {
-  data() {
+  data () {
     return {
       labelWidth: 'auto',
       labelSuffix: '：',
@@ -7,7 +7,7 @@ const myMinix = {
       pageSize: 10,
       pageSizes: [100, 200, 300, 400],
       dialogWidth: '50%',
-      showOverflowTooltip: true
+      showOverflowTooltip: false
     }
   }
 }

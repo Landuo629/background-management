@@ -23,6 +23,7 @@ export function deleteUser (params) {
 export function getDetail (params) {
   return request({
     url: `/admin/user/detail/${params.id}`,
-    method: 'get'
+    method: 'get',
+    noLoading: true
   })
 }

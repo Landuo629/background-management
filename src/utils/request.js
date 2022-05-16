@@ -4,23 +4,37 @@ import { getToken, removeToken } from '@/utils/auth'
 import options from '@/utils/loadingOption'
 import Router from '@/router'
 
-// create an axios instance
+let gobalLoading = null
+
+/**
+* @type {function}
+* @param {boolean} [noLoading]  -用于不需要loding动画的
+*/
 const service = axios.create({
   baseURL: process.env.VUE_APP_BASE_API, // url = base url + request url
-  // withCredentials: true, // send cookies when cross-domain requests
+  withCredentials: true, // send cookies when cross-domain requests
   timeout: 20000 // request timeout
 })
 
-let gobalLoading = null
+const axiosOption = {
+  token: 'admin-token',
+  invalidStatus: [401],
+  invalidCodes: [],
+  correctCodes: [10000],
+  duration: 3 * 1000
+}
 
-const urlList = ['/export/order', '/export/user', '/export/evaluation', '/export/msg']
+const { invalidStatus, invalidCodes, correctCodes, duration, token } = axiosOption
 
 // request interceptor
 service.interceptors.request.use(
   (config) => {
-    gobalLoading = Loading.service(options)
+    // noLoading 用于不需要loding动画的
+    gobalLoading = !config.noLoading && Loading.service(options)
     if (getToken()) {
-      config.headers['admin-token'] = getToken()
+      config.headers[token] = getToken()
+    } else {
+      loginOut()
     }
     return config
   },
@@ -33,69 +47,59 @@ service.interceptors.request.use(
 // response interceptor
 service.interceptors.response.use(
   (response) => {
-    console.log('返回数据：', response.data)
-    gobalLoading.close()
-    const res = response.data
-    const status = response.status
+    console.log('返回数据：', response)
+    gobalLoading && gobalLoading.close()
 
-    if (res.code === 1100) {
-      Message.error('登陆失效，请重新登陆！')
-      removeToken()
-      Router.replace('/login')
+    if (response.config.responseType === 'blob') {
+      // 下载文件时，没有code编码
+      return res
+    }
+
+    const { data: res, status } = response
+    const { code, msg, message } = res// 状态码
+
+    if (invalidStatus.includes(status)) {
+      loginOut()
       return
     }
-    // if (res.code !== 10000) {
-    //   Message({
-    //     message: res.msg || "Error",
-    //     type: "error",
-    //     duration: 5 * 1000,
-    //   });
 
-    //   return Promise.reject(new Error(res.message || "Error"));
-    // }
     if (status === 200) {
-      // const res = response.data // 数据
-      const code = res.code // 状态码
-      const msg = res.msg || res.message
-      const whiteUrl = response.config.url.slice(response.config.baseURL.length)
-      if (urlList.includes(whiteUrl)) {
-        if (response.headers['content-type'] === 'application/json') {
-          Message({
-            message: '导出失败',
-            type: 'error',
-            duration: 5 * 1000
-          })
-          return Promise.reject('导出失败')
-        } else {
-          return Promise.resolve(response.data)
-        }
-      }
-
-      // if(code){
-      if (code === 10000) {
+      if (correctCodes.includes(code)) {
         return Promise.resolve(res)
+      } if (invalidCodes.includes(code)) {
+        loginOut()
+        return
       } else {
         Message({
           message: msg || 'Error',
           type: 'error',
-          duration: 5 * 1000
+          duration
         })
-        return Promise.reject(new Error(res.message || 'Error'))
+        return Promise.reject(new Error(msg || message || 'Error'))
       }
-      // }
     }
     return res
   },
   (error) => {
-    gobalLoading.close()
+    gobalLoading && gobalLoading.close()
     console.log('err' + error) // for debug
     Message({
       message: error.message,
       type: 'error',
-      duration: 5 * 1000
+      duration
     })
     return Promise.reject(error)
   }
 )
+
+function loginOut () {
+  Message({
+    message: '登陆失效，请重新登陆！',
+    type: 'error',
+    duration
+  })
+  removeToken()
+  Router.replace('/login')
+}
 
 export default service
