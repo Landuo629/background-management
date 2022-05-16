@@ -33,7 +33,7 @@ service.interceptors.request.use(
 // response interceptor
 service.interceptors.response.use(
   (response) => {
-    console.log(response, 'response')
+    console.log('返回数据：', response.data)
     gobalLoading.close()
     const res = response.data
     const status = response.status

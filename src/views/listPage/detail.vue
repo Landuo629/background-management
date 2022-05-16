@@ -143,6 +143,9 @@
 <script>
 import minix from '@/utils/minix'
 import HeadTitle from '@/components/commons/HeadTitle'
+import {
+  getDetail
+} from '@/api/UserInformation'
 export default {
   name: 'ListPageDetail',
   components: { HeadTitle },
@@ -151,16 +154,24 @@ export default {
     return {
     }
   },
-  confirmForm(formName) {
-    const { id } = this.demoLessonData // 课程id
-    this.$refs[formName].validate((valid) => {
-      if (valid) {
-        (async() => {
-          await updateUsers({ ...this.formData, auditionCourseId: id })
-          this.goBack() // 返回页面
-        })()
-      }
-    })
+  mounted() {
+    this.getDetail()
+  },
+  methods: {
+    async getDetail() {
+      const { data } = await getDetail({ id: 1 })
+    },
+    confirmForm(formName) {
+      const { id } = this.demoLessonData // 课程id
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          (async() => {
+            await updateUsers({ ...this.formData, auditionCourseId: id })
+            this.goBack() // 返回页面
+          })()
+        }
+      })
+    }
   }
 }
 </script>

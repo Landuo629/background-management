@@ -121,7 +121,6 @@
               @click="edit(scope.row)"
             >编辑</el-button>
             <el-button
-              v-permission="['superAdmin']"
               type="text"
               size="small"
               @click="delForm(scope.row)"
@@ -199,7 +198,7 @@ export default {
     },
     // 详情
     handleClick(val) {
-      this.$router.push(`/userDetail?operate=check&id=${val.id}`)
+      this.$router.push(`/listPageDetail?operate=check&id=${val.id}`)
     },
     // 删除用户
     delForm(val) {

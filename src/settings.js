@@ -20,5 +20,5 @@ module.exports = {
    * @value 2 后端返回路由
    * @description 前端路由模式
    */
-  routingMode: 0
+  routingMode: 1
 }

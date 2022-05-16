@@ -27,7 +27,7 @@ module.exports = [
     type: 'post',
     response: config => {
       console.log(config)
-      const { body: { page = 1, size = 10 }} = config
+      const { body: { page = 1, size = 10 } } = config
       const items = data.items
       return {
         code: 10000,
@@ -47,6 +47,27 @@ module.exports = [
         data: {
           msg: '删除成功'
         }
+      }
+    }
+  },
+  {
+    url: '/admin/user/detail\.*',
+    type: 'get',
+    response: config => {
+      return {
+        code: 10000,
+        data: Mock.mock(
+          {
+            id: '@id',
+            nickName: '@string(2,3)',
+            sex: '@integer(0, 1)',
+            userName: '@cname',
+            birthday: '@time("yyyy-MM-dd")',
+            phone: '@integer(13499999999,13699999999)',
+            remark: '@string()',
+            image: '@dataImage("150x150")'
+          }
+        )
       }
     }
   }
