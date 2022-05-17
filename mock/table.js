@@ -70,5 +70,15 @@ module.exports = [
         )
       }
     }
+  },
+  {
+    url: '/admin/upload',
+    type: 'post',
+    response: config => {
+      return {
+        code: 10000,
+        data: 'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fc-ssl.duitang.com%2Fuploads%2Fitem%2F201812%2F15%2F20181215115148_gianw.thumb.200_200_c.gif&refer=http%3A%2F%2Fc-ssl.duitang.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1655369912&t=14b779e32298cd8d187a7c283b8af86d'
+      }
+    }
   }
 ]
