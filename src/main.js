@@ -12,6 +12,8 @@ import App from './App'
 import store from './store'
 import router from './router'
 
+import i18n from './lang'
+
 import '@/icons' // icon
 
 import '@/permission' // 全局路由守卫
@@ -29,10 +31,11 @@ if (process.env.NODE_ENV === 'production') {
   mockXHR()
 }
 
-Vue.config.productionTip = false
+Vue.config.productionTip = false // 阻止 vue 在启动时生成生产提示
 
 new Vue({
   el: '#app',
+  i18n, // 注入国际化
   router,
   store,
   render: (h) => h(App)
