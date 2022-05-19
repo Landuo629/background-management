@@ -25,33 +25,6 @@ export const constantRoutes = [
       }
     ]
   },
-  // {
-  //   path: '/listPage',
-  //   component: Layout,
-  //   redirect: '/listPage',
-  //   name: 'listPage',
-  //   children: [
-  //     {
-  //       path: '/listPage',
-  //       name: 'listPage',
-  //       component: () => import('@/views/listPage/index'),
-  //       meta: {
-  //         title: '列表测试页',
-  //         icon: 'orderManage'
-  //       }
-  //     },
-  //     {
-  //       path: '/listPageDetail',
-  //       name: 'listPageDetail',
-  //       component: () => import('@/views/listPage/detail'),
-  //       meta: {
-  //         title: '列表测试页详情页',
-  //         icon: ''
-  //       },
-  //       hidden: true
-  //     }
-  //   ]
-  // },
   {
     path: '/login',
     component: () => import('@/views/login/index'),
@@ -72,7 +45,7 @@ const createRouter = () =>
 const router = createRouter()
 
 // Detail see: https://github.com/vuejs/vue-router/issues/1234#issuecomment-357941465
-export function resetRouter() {
+export function resetRouter () {
   const newRouter = createRouter()
   router.matcher = newRouter.matcher // reset router
 }

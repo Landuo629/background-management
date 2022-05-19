@@ -33,8 +33,6 @@ service.interceptors.request.use(
     gobalLoading = !config.noLoading && Loading.service(options)
     if (getToken()) {
       config.headers[token] = getToken()
-    } else {
-      loginOut()
     }
     return config
   },

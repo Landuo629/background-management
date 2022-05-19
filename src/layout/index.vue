@@ -10,7 +10,10 @@
       <div :class="{ 'fixed-header': fixedHeader }">
         <navbar />
       </div>
-      <app-main />
+      <el-tooltip placement="top" content="回到顶部">
+        <back-to-top :custom-style="myBackToTopStyle" :visibility-height="300" :back-position="0" transition-name="fade" />
+      </el-tooltip>
+      <app-main id="appMain" />
     </div>
   </div>
 </template>
@@ -18,13 +21,15 @@
 <script>
 import { Navbar, Sidebar, AppMain } from './components'
 import ResizeMixin from './mixin/ResizeHandler'
+import BackToTop from '@/components/BackToTop'
 
 export default {
   name: 'Layout',
   components: {
     Navbar,
     Sidebar,
-    AppMain
+    AppMain,
+    BackToTop
   },
   mixins: [ResizeMixin],
   computed: {
