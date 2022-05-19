@@ -41,35 +41,37 @@ export default {
     return {
       visible: false,
       interval: null,
-      isMoving: false
+      isMoving: false,
+      element: null
     }
   },
   mounted() {
-    document.getElementById('appMain').addEventListener('scroll', this.handleScroll)
+    this.element = document.getElementById('appMain')
+    this.element.addEventListener('scroll', this.handleScroll)
   },
   beforeDestroy() {
-    document.getElementById('appMain').removeEventListener('scroll', this.handleScroll)
+    this.element.removeEventListener('scroll', this.handleScroll)
     if (this.interval) {
       clearInterval(this.interval)
     }
   },
   methods: {
     handleScroll() {
-      this.visible = document.getElementById('appMain').scrollTop > this.visibilityHeight
+      this.visible = this.element.scrollTop > this.visibilityHeight
     },
     backToTop() {
       if (this.isMoving) return
-      const start = document.getElementById('appMain').scrollTop
+      const start = this.element.scrollTop
       let i = 0
       this.isMoving = true
       this.interval = setInterval(() => {
         const next = Math.floor(this.easeInOutQuad(10 * i, start, -start, 500))
         if (next <= this.backPosition) {
-          document.getElementById('appMain').scrollTo(0, this.backPosition)
+          this.element.scrollTo(0, this.backPosition)
           clearInterval(this.interval)
           this.isMoving = false
         } else {
-          document.getElementById('appMain').scrollTo(0, next)
+          this.element.scrollTo(0, next)
         }
         i++
       }, 16.7)
