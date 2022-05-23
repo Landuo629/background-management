@@ -1,0 +1,341 @@
+$orange: #ff9217;
+$white: #FFFFFF;
+$gray: #606266;
+$border-gray: #dcdfe6;
+$defaultFontSize: 12px;
+$fixedHeight: 30px;
+/* button */
+.yellow {
+  background: $orange;
+  border-color: $orange;
+}
+
+.white {
+  background: $white;
+  border-color: $border-gray;
+}
+
+.el-button--default {
+  padding: 2px 15px;
+  border-radius: 2px;
+  font-size: $defaultFontSize;
+
+  @extend .yellow;
+
+  span {
+    font-size: $defaultFontSize;
+    font-family: SourceHanSansSC-Regular, SourceHanSansSC;
+    font-weight: 400;
+    line-height: 20px;
+    color: $white;
+  }
+
+  &:hover, &:focus {
+    @extend .yellow;
+  }
+
+  &:active {
+    transform: scale(1.1);
+  }
+
+}
+
+.el-button[disabled] {
+  background: $border-gray;
+
+  &:hover {
+    background: $border-gray;
+  }
+}
+
+.el-button--primary {
+  @extend .el-button--default;
+  @extend .white;
+
+  span {
+    color: $gray;
+  }
+
+  &:hover, &:focus, &:active {
+    @extend .white;
+  }
+}
+
+.el-button.is-plain {
+  &:hover, &:focus, &:active {
+    background: $orange;
+    border-color: $orange;
+    color: $white;
+  }
+}
+
+/* el-input */
+
+.el-input {
+  input {
+    width: 100%;
+    height: $fixedHeight;
+    line-height: $fixedHeight;
+  }
+
+  input:focus {
+    border-color: $orange;
+  }
+}
+
+.el-input__inner {
+  height: $fixedHeight;
+  line-height: $fixedHeight;
+}
+
+.el-input__icon {
+  line-height: $fixedHeight;
+}
+
+/* el-checkbox */
+
+.el-checkbox {
+  .el-checkbox__label {
+    font-size: $defaultFontSize;
+  }
+
+  .el-checkbox__inner {
+    border-color: $orange;
+  }
+
+  .el-checkbox__input.is-checked + .el-checkbox__label {
+    color: $orange;
+  }
+
+  .el-checkbox__input.is-checked .el-checkbox__inner, .el-checkbox__input.is-indeterminate .el-checkbox__inner {
+    background-color: $orange;
+    border-color: $orange;
+  }
+
+  .el-checkbox__input.is-focus .el-checkbox__inner {
+    border-color: $orange;
+  }
+
+  .el-checkbox__input.is-disabled.is-indeterminate .el-checkbox__inner::before {
+    background-color: $white;
+  }
+
+  .el-checkbox__input.is-disabled.is-checked .el-checkbox__inner::after {
+    border-color: $white;
+  }
+}
+
+/* el-radio */
+
+.el-radio {
+
+  .el-radio__label {
+    font-size: $defaultFontSize;
+  }
+
+  .el-radio__input.is-checked {
+    .el-radio__inner {
+      background: #ff9217;
+      border-color: #ff9217;
+    }
+  }
+
+  .el-radio__input.is-checked + .el-radio__label {
+    color: #ff9217;
+  }
+}
+
+.el-radio.is-bordered.is-checked {
+  border-color: $orange;
+}
+
+/* el-switch */
+
+.el-switch.is-checked .el-switch__core {
+  background-color: $orange;
+  border-color: $orange;
+}
+
+.el-switch__label.is-active {
+  color: $orange;
+}
+
+/* el-select */
+
+.el-select {
+  .el-input.is-focus .el-input__inner {
+    border-color: $orange;
+  }
+
+  .el-input__inner:focus {
+    border-color: $orange;
+  }
+}
+
+.el-select-dropdown__item.selected {
+  color: $orange;
+}
+
+.el-select-dropdown.is-multiple .el-select-dropdown__item.selected {
+  color: $orange;
+}
+
+/* el-date-picker */
+.el-date-table td.current:not(.disabled) span {
+  background-color: $orange;
+}
+
+.el-date-table td.start-date span, .el-date-table td.end-date span {
+  color: $white;
+  background-color: $orange;
+}
+
+.el-date-table.is-week-mode .el-date-table__row.current div, .el-date-table.is-week-mode .el-date-table__row:hover div, .el-date-table td.in-range div, .el-date-table td.in-range div:hover {
+  background-color: rgba($orange, 0.2);
+}
+
+.el-date-table td.available:hover {
+  color: $orange;
+}
+
+.el-date-table td.today span {
+  color: $orange;
+}
+
+.el-date-picker__header-label.active, .el-date-picker__header-label:hover {
+  color: $orange;
+}
+
+.el-picker-panel__icon-btn:hover {
+  color: $orange;
+}
+
+.el-range-editor {
+  .el-range-separator {
+    line-height: $fixedHeight;
+  }
+}
+
+.el-range-editor.el-input__inner {
+  padding: 0 10px;
+}
+
+.el-range-editor.is-active, .el-range-editor.is-active:hover {
+  border-color: $orange;
+}
+
+el-date-editor .el-range__close-icon {
+  line-height: $fixedHeight;
+}
+
+.el-time-panel__btn.confirm {
+  color: $orange;
+}
+
+/* el-pagination */
+.el-pagination__sizes .el-input .el-input__inner:hover {
+  border-color: $orange;
+}
+.el-pager li.active {
+  color: $orange;
+}
+.el-pager li:hover {
+  color: $orange;
+}
+.el-pagination button:hover {
+  color: $orange;
+}
+
+/* el-dropdown */
+.el-dropdown-menu__item:focus, .el-dropdown-menu__item:not(.is-disabled):hover {
+  background-color: rgba($orange,0.1);
+  color: $orange;
+}
+
+/* el-table */
+.el-table {
+  margin-top: 17px;
+  font-size: 12px;
+
+  .cell {word-break: keep-all;}
+  .el-table__expanded-cell{padding: 0;}
+  .el-table__header {
+    background: #fafafa;
+
+    th, tr {background-color: initial;}
+    th {padding: 5px 0;}
+
+    .is-leaf {
+      font-size: 12px;
+      font-family: SourceHanSansSC-Regular, SourceHanSansSC;
+      font-weight: 400;
+      color: rgba(0, 0, 0, 0.85);
+    }
+  }
+  // 表格行高
+  .el-table__header th {
+    font-size: 14px;
+  }
+  .el-table__row td {
+    padding: 1px;
+  }
+  .el-table__body-wrapper {
+    font-size: 12px;
+    font-family: SourceHanSansCN-Regular, SourceHanSansCN;
+    font-weight: 400;
+    color: #333333;
+    line-height: 21px;
+  }
+}
+
+// 流体高度
+//.el-table {
+//  max-height: 100% !important;
+//  position: relative;
+//}
+//
+//.el-table__body-wrapper,.el-table__fixed-body-wrapper {
+//  max-height: 100% !important;
+//  position: absolute;
+//  top: 30px; // 表格头部高度
+//  bottom: 0;
+//}
+//.el-table__fixed {
+//  height: 100%;
+//}
+//.el-table__fixed-right {
+//  height: 100%;
+//}
+
+// table底部去除滚动栏的高度
+//.el-table__fixed-body-wrapper .el-table__body {
+//  padding-bottom: 17px;
+//}
+
+/* 图片上传样式 */
+.avatar-uploader .el-upload {
+  border: 1px dashed #d9d9d9;
+  border-radius: 6px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+
+  &:hover {
+    border-color: #409EFF;
+  }
+}
+
+.avatar-uploader-icon {
+  font-size: 28px;
+  color: #8c939d;
+  width: 150px;
+  height: 150px;
+  line-height: 150px;
+  text-align: center;
+}
+
+.avatar {
+  width: 150px;
+  height: 150px;
+  display: block;
+}
