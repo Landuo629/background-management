@@ -1,9 +1,9 @@
 <template>
   <el-upload
     ref="upload"
+    :action="actionComputed"
     :accept="accept"
     :list-type="listType"
-    :action="actionComputed"
     :headers="headers"
     :with-credentials="credentials"
     :multiple="multiple"
@@ -138,9 +138,11 @@ export default {
     },
     onProgress(event, file, fileList) {
       this.gobalLoading = this.$loading(options)
+      console.log(1)
       this.$emit('onProgress', event, file, fileList)
     },
     onSuccess(response, file, fileList) {
+      console.log(2)
       this.gobalLoading.close()
       this.$emit('onSuccess', response, file, fileList)
     },
