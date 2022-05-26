@@ -15,7 +15,7 @@ $fixedHeight: 30px;
   border-color: $border-gray;
 }
 
-.el-button--default {
+.el-button--primary {
   padding: 2px 15px;
   border-radius: 2px;
   font-size: $defaultFontSize;
@@ -48,8 +48,8 @@ $fixedHeight: 30px;
   }
 }
 
-.el-button--primary {
-  @extend .el-button--default;
+.el-button--default {
+  @extend .el-button--primary;
   @extend .white;
 
   span {
