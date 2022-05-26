@@ -16,6 +16,7 @@ export default {
 </script>
 
 <style lang="scss">
+
 #app {
   .dialog {
     .el-dialog__body {
@@ -25,7 +26,7 @@ export default {
     }
   }
   // 公共样式
-  .el-table {
+  .el-table[border] {
     border: 1px solid #ebeef5;
     border-bottom: none;
   }

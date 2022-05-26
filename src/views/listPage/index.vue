@@ -133,7 +133,7 @@
             <el-button
               type="text"
               size="small"
-              @click="handleClick(scope.row)"
+              @click="handleDialog(scope.row)"
             >弹出框</el-button>
           </template>
         </el-table-column>
@@ -156,6 +156,12 @@
       />
     </footer>
 
+    <el-dialog title="收货地址" :width="dialogWidth" :visible.sync="dialogFormVisible">
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="dialogFormVisible = false">取 消</el-button>
+        <el-button type="primary" @click="dialogFormVisible = false">确 定</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -194,7 +200,8 @@ export default {
         page: 1,
         size: 10
       },
-      tableData: []
+      tableData: [],
+      dialogFormVisible: false
     }
   },
   mounted() {
@@ -237,6 +244,10 @@ export default {
     // 编辑
     edit(val) {
       this.$router.push(`/listPageDetail?operate=edit&id=${val.id}`)
+    },
+    // 点击弹出框
+    handleDialog() {
+      this.dialogFormVisible = true
     }
   }
 }
