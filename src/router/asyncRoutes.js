@@ -95,5 +95,22 @@ export default [{
     }
   }
   ]
+},
+{
+  path: '/jsx',
+  component: Layout,
+  redirect: '/jsx',
+  name: 'jsx',
+  children: [{
+    path: '/jsx',
+    name: 'jsx',
+    component: () => import('@/views/jsx/index'),
+    meta: {
+      title: 'jsx',
+      icon: 'el-icon-lollipop',
+      roles: ['superAdmin', 'admin']
+    }
+  }
+  ]
 }
 ]
