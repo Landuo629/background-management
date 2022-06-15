@@ -13,7 +13,7 @@ Vue.use(Vuex)
 const vuexLocal = new VuexPersistence({
   storage: window.localStorage,
   reducer (val) {
-    const { user, permission, routers } = val
+    const { user, permission, routers, buttons } = val
     return {
       user, // 这里只对user模块作数据持久化
       permission,
