@@ -30,7 +30,7 @@ const { invalidStatus, invalidCodes, correctCodes, duration, token } = axiosOpti
 service.interceptors.request.use(
   (config) => {
     // noLoading 用于不需要loding动画的
-    gobalLoading = !config.noLoading && Loading.service(options)
+    !config.noLoading && (gobalLoading = Loading.service(options))
     if (getToken()) {
       config.headers[token] = getToken()
     }
