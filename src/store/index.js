@@ -6,17 +6,19 @@ import settings from './modules/settings'
 import user from './modules/user'
 import permission from './modules/permission'
 import routers from './modules/routers'
+import buttons from './modules/buttons'
 import VuexPersistence from 'vuex-persist'
 
 Vue.use(Vuex)
 const vuexLocal = new VuexPersistence({
   storage: window.localStorage,
-  reducer(val) {
-    const { user, permission, routers } = val
+  reducer (val) {
+    const { user, permission, routers, buttons } = val
     return {
       user, // 这里只对user模块作数据持久化
       permission,
-      routers
+      routers,
+      buttons
     }
   }
 })
@@ -26,7 +28,8 @@ const store = new Vuex.Store({
     settings,
     user,
     permission,
-    routers
+    routers,
+    buttons
   },
   getters,
   plugins: [vuexLocal.plugin]

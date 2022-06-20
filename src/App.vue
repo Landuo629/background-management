@@ -26,7 +26,7 @@ export default {
     }
   }
   // 公共样式
-  .el-table[border] {
+  .el-table {
     border: 1px solid #ebeef5;
     border-bottom: none;
   }

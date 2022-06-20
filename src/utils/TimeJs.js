@@ -7,7 +7,7 @@
  * @param {string ｜ date} [time = new Date()] -时间
  * @return {string}
  */
-export function format(fmt = 'yyyy-MM-dd hh:mm:ss', time) {
+export function format (fmt = 'yyyy-MM-dd hh:mm:ss', time) {
   const date = _getDate(time)
 
   const dateList = {
@@ -51,7 +51,7 @@ export function format(fmt = 'yyyy-MM-dd hh:mm:ss', time) {
  *  @value year                               - 年份
  *  @value quarter                            - 第几季度
  */
-export function getQuarterDay(AddQuarteCount, time) {
+export function getQuarterDay (AddQuarteCount, time) {
   const date = _getDate(time)
   let year = date.getFullYear()
   let month = date.getMonth() + 1
@@ -84,7 +84,7 @@ export function getQuarterDay(AddQuarteCount, time) {
  * @param {string | date} [time = new Date()] -时间
  * @return {array[string]} - 开始日期和结束日期
  */
-export function getMonthDay(AddMonthCount, time) {
+export function getMonthDay (AddMonthCount, time) {
   const date = _getDate(time)
   let year = date.getFullYear()
   let month = date.getMonth() + 1
@@ -108,15 +108,13 @@ export function getMonthDay(AddMonthCount, time) {
  * @param {string | date} [time = new Date()] -时间
  * @return {array[string]} - 周一和周日
  */
-export function getWeekhDay(time) {
+export function getWeekhDay (time) {
   const date = _getDate(time)
   const day = date.getDay() || 7
-  const firstdate = `${date.getFullYear()}-${date.getMonth()}-${
-    date.getDate() + 1 - day
-  }`
-  const lastdate = `${date.getFullYear()}-${date.getMonth()}-${
-    date.getDate() + 7 - day
-  }`
+  const firstdate = `${date.getFullYear()}-${date.getMonth()}-${date.getDate() + 1 - day
+    }`
+  const lastdate = `${date.getFullYear()}-${date.getMonth()}-${date.getDate() + 7 - day
+    }`
   return [firstdate, lastdate]
 }
 
@@ -125,7 +123,7 @@ export function getWeekhDay(time) {
  * @param {string | date} [time = new Date()] - 当前时间
  * @return {string}
  */
-export function getDateStr(AddDayCount, time) {
+export function getDateStr (AddDayCount, time) {
   const date = _getDate(time)
   date.setDate(date.getDate() + AddDayCount) // 获取AddDayCount天后的日期
   const y = date.getFullYear()
@@ -142,7 +140,7 @@ export function getDateStr(AddDayCount, time) {
  *  @value true 第一个时间大
  *  @value false 第二个时间大
  */
-export function compareDate(startDate, endDate) {
+export function compareDate (startDate, endDate) {
   return Date.parse(_getDate(startDate)) > Date.parse(_getDate(endDate))
 }
 
@@ -150,14 +148,14 @@ export function compareDate(startDate, endDate) {
  * @param {string} [time = new Date()] -时间
  * @return {date}
  */
-function _getDate(time) {
+function _getDate (time) {
   const date = time ? new Date(time.replace(/-/g, '/')) : new Date()
   _isValidDate(date)
   return date
 }
 
 // 校验传入的时间格式是否正确
-function _isValidDate(date) {
+function _isValidDate (date) {
   if (isNaN(date.getTime())) {
     // eslint-disable-next-line no-throw-literal
     throw '无效的时间格式!!!'
@@ -168,23 +166,6 @@ function _isValidDate(date) {
  * @param {number} month - 月份
  * @return {number} - 月份
  */
-function _getQuarterStartMonth(month) {
-  switch (month) {
-    case 1:
-    case 2:
-    case 3:
-      return 1
-    case 4:
-    case 5:
-    case 6:
-      return 4
-    case 7:
-    case 8:
-    case 9:
-      return 7
-    case 10:
-    case 11:
-    case 12:
-      return 10
-  }
+function _getQuarterStartMonth (month) {
+  return (Math.ceil(month / 3) - 1) * 3 + 1
 }
