@@ -15,8 +15,10 @@ $fixedHeight: 30px;
   border-color: $border-gray;
 }
 
-.el-button--primary {
-  padding: 2px 15px;
+
+.el-button--primary,
+.el-button--primary:active  {
+  padding: 3px 15px;
   border-radius: 2px;
   font-size: $defaultFontSize;
 
@@ -40,11 +42,14 @@ $fixedHeight: 30px;
 
 }
 
-.el-button[disabled] {
-  background: $border-gray;
 
+
+.el-button[disabled] {
+  background: $border-gray !important;
+  border-color: $border-gray !important;
   &:hover {
     background: $border-gray;
+    border-color: $border-gray;
   }
 }
 
@@ -149,6 +154,21 @@ $fixedHeight: 30px;
   border-color: $orange;
 }
 
+.el-radio-button__orig-radio:checked + .el-radio-button__inner {
+  border-color: $orange;
+  background-color: $orange;
+  box-shadow: -1px 0 0 0 $orange;
+}
+
+.el-radio-button__inner {
+  font-size: $defaultFontSize;
+  padding: 8px 16px;
+}
+
+.el-radio-button__inner:hover {
+  color: $orange;
+}
+
 /* el-switch */
 
 .el-switch.is-checked .el-switch__core {
@@ -163,6 +183,8 @@ $fixedHeight: 30px;
 /* el-select */
 
 .el-select {
+  width: 100%;
+
   .el-input.is-focus .el-input__inner {
     border-color: $orange;
   }
@@ -181,6 +203,9 @@ $fixedHeight: 30px;
 }
 
 /* el-date-picker */
+.el-date-editor.el-input, .el-date-editor.el-input__inner {
+  width: 100%;
+}
 .el-date-table td.current:not(.disabled) span {
   background-color: $orange;
 }
@@ -236,19 +261,22 @@ el-date-editor .el-range__close-icon {
 .el-pagination__sizes .el-input .el-input__inner:hover {
   border-color: $orange;
 }
+
 .el-pager li.active {
   color: $orange;
 }
+
 .el-pager li:hover {
   color: $orange;
 }
+
 .el-pagination button:hover {
   color: $orange;
 }
 
 /* el-dropdown */
 .el-dropdown-menu__item:focus, .el-dropdown-menu__item:not(.is-disabled):hover {
-  background-color: rgba($orange,0.1);
+  background-color: rgba($orange, 0.1);
   color: $orange;
 }
 
@@ -257,13 +285,24 @@ el-date-editor .el-range__close-icon {
   margin-top: 17px;
   font-size: 12px;
 
-  .cell {word-break: keep-all;}
-  .el-table__expanded-cell{padding: 0;}
+  .cell {
+    word-break: keep-all;
+  }
+
+  .el-table__expanded-cell {
+    padding: 0;
+  }
+
   .el-table__header {
     background: #fafafa;
 
-    th, tr {background-color: initial;}
-    th {padding: 5px 0;}
+    th, tr {
+      background-color: initial;
+    }
+
+    th {
+      padding: 5px 0;
+    }
 
     .is-leaf {
       font-size: 12px;
@@ -272,13 +311,16 @@ el-date-editor .el-range__close-icon {
       color: rgba(0, 0, 0, 0.85);
     }
   }
+
   // 表格行高
   .el-table__header th {
     font-size: 14px;
   }
+
   .el-table__row td {
     padding: 1px;
   }
+
   .el-table__body-wrapper {
     font-size: 12px;
     font-family: SourceHanSansCN-Regular, SourceHanSansCN;
@@ -312,6 +354,54 @@ el-date-editor .el-range__close-icon {
 //  padding-bottom: 17px;
 //}
 
+
+/* el-collapse */
+
+.el-collapse {
+  border: none;
+
+  .el-collapse-item {
+    padding-bottom: 10px;
+
+    .title {
+      padding-left: 25px;
+    }
+
+    .el-collapse-item__content {
+      padding: 10px 30px 10px 30px;
+    }
+
+    .el-collapse-item__header {
+      height: 40px;
+      background: #f5f7fa;
+      border-radius: 5px;
+      font-size: 18px;
+      font-family: SourceHanSansSC-Bold, SourceHanSansSC;
+      font-weight: bold;
+      color: #ff9217;
+      line-height: 40px;
+    }
+
+    .el-collapse-item__wrap {
+      border-bottom: none;
+    }
+
+    .el-collapse-item__arrow {
+      margin-right: 56px;
+    }
+  }
+}
+
+/* el-steps */
+
+.el-step__icon.is-text {
+  cursor: pointer;
+}
+
+.el-step__title {
+  cursor: pointer;
+}
+
 /* 图片上传样式 */
 .avatar-uploader .el-upload {
   border: 1px dashed #d9d9d9;
@@ -338,4 +428,12 @@ el-date-editor .el-range__close-icon {
   width: 150px;
   height: 150px;
   display: block;
+}
+
+/* loading遮罩层颜色 */
+.el-loading-spinner i {
+  color: #ff9217
+}
+.el-loading-spinner .el-loading-text {
+  color: #ff9217;
 }

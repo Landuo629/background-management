@@ -3,6 +3,7 @@ import { Message, Loading } from 'element-ui'
 import { getToken, removeToken } from '@/utils/auth'
 import options from '@/utils/loadingOption'
 import Router from '@/router'
+import { debounce } from './debounce'
 
 let gobalLoading = null
 
@@ -12,17 +13,18 @@ let gobalLoading = null
 */
 const service = axios.create({
   baseURL: process.env.VUE_APP_BASE_API, // url = base url + request url
-  withCredentials: true, // send cookies when cross-domain requests
+  // withCredentials: true, // send cookies when cross-domain requests
   timeout: 20000 // request timeout
 })
 
 const axiosOption = {
-  token: 'admin-token',
-  invalidStatus: [401],
-  invalidCodes: [],
+  token: 'token',
+  invalidStatus: [],
+  invalidCodes: [401],
   correctCodes: [10000],
   duration: 3 * 1000,
-  errorMsg: '网络走神了'
+  errorMsg: '网络走神了',
+  gobalLoading: null
 }
 
 const { invalidStatus, invalidCodes, correctCodes, duration, token, errorMsg } = axiosOption
@@ -32,9 +34,8 @@ service.interceptors.request.use(
   (config) => {
     // noLoading 用于不需要loding动画的
     !config.noLoading && (gobalLoading = Loading.service(options))
-    if (getToken()) {
-      config.headers[token] = getToken()
-    }
+    getToken() && (config.headers[token] = getToken())
+
     return config
   },
   (error) => {
@@ -47,6 +48,7 @@ service.interceptors.request.use(
 service.interceptors.response.use(
   (response) => {
     console.log('返回数据：', response)
+
     gobalLoading && gobalLoading.close()
 
     if (response.config.responseType === 'blob') {
@@ -93,11 +95,14 @@ service.interceptors.response.use(
 )
 
 function loginOut () {
-  Message({
-    message: '登陆失效，请重新登陆！',
-    type: 'error',
-    duration
-  })
+  // 防抖，只执行最后一次
+  debounce(() => {
+    Message({
+      message: '登陆失效，请重新登陆！',
+      type: 'error',
+      duration
+    })
+  }, 300)
   removeToken()
   Router.replace('/login')
 }

@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import asyncRoutes1 from './asyncRoutes'
+import asyncRoutes1 from './asyncRoutes/index'
 import routes404 from './404routes'
 import { routingMode } from '@/settings'
 
