@@ -23,10 +23,11 @@ const axiosOption = {
   invalidCodes: [401],
   correctCodes: [10000],
   duration: 3 * 1000,
+  errorMsg: '网络走神了',
   gobalLoading: null
 }
 
-const { invalidStatus, invalidCodes, correctCodes, duration, token } = axiosOption
+const { invalidStatus, invalidCodes, correctCodes, duration, token, errorMsg } = axiosOption
 
 // request interceptor
 service.interceptors.request.use(
@@ -71,20 +72,21 @@ service.interceptors.response.use(
         return
       } else {
         Message({
-          message: msg || 'Error',
+          message: msg || message || errorMsg,
           type: 'error',
           duration
         })
-        return Promise.reject(new Error(msg || message || 'Error'))
+        return Promise.reject(msg || message || errorMsg)
       }
     }
     return res
   },
   (error) => {
+    const { msg, message } = error
     gobalLoading && gobalLoading.close()
     console.log('err' + error) // for debug
     Message({
-      message: error.message,
+      message: msg || message || errorMsg,
       type: 'error',
       duration
     })
