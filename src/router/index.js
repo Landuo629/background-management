@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import asyncRoutes1 from './asyncRoutes'
+import asyncRoutes1 from './asyncRoutes/index'
 import routes404 from './404routes'
 import { routingMode } from '@/settings'
 
@@ -9,7 +9,7 @@ const Layout = () => import('@/layout')
 Vue.use(Router)
 export const asyncRoutes = asyncRoutes1
 
-const statusRoutes = routingMode === 0 ? routes404 : []
+const statusRoutes = routingMode === 0 ? [...asyncRoutes1, ...routes404] : []
 
 export const constantRoutes = [
   {
