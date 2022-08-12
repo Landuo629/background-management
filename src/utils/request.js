@@ -1,4 +1,4 @@
-mport axios from 'axios'
+import axios from 'axios'
 import { Message, Loading } from 'element-ui'
 import { getToken, removeToken } from '@/utils/auth'
 import options from '@/utils/loadingOption'
