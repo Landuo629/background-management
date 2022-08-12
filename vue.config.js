@@ -2,7 +2,7 @@
 const path = require('path')
 const defaultSettings = require('./src/settings.js')
 
-function resolve(dir) {
+function resolve (dir) {
   return path.join(__dirname, dir)
 }
 
@@ -12,7 +12,7 @@ const port = process.env.port || process.env.npm_config_port || 9528
 module.exports = {
   publicPath: '/',
   outputDir: 'dist',
-  assetsDir: 'static',
+  assetsDir: 'assets',
   lintOnSave: process.env.NODE_ENV === 'development',
   productionSourceMap: false,
   devServer: {
@@ -34,7 +34,7 @@ module.exports = {
       }
     }
   },
-  chainWebpack(config) {
+  chainWebpack (config) {
     // it can improve the speed of the first screen, it is recommended to turn on preload
     config.plugin('preload').tap(() => [
       {
