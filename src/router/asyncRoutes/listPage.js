@@ -1,6 +1,6 @@
 // import Layout from '@/layout'
 const Layout = () => import('@/layout')
-export default [{
+export default {
   path: '/listPage',
   component: Layout,
   redirect: '/listPage',
@@ -28,4 +28,4 @@ export default [{
   }
   ]
 }
-]
+
