@@ -1,26 +1,9 @@
 import axios from 'axios'
-import { Message, Loading } from 'element-ui'
-import { getToken, removeToken } from '@/utils/auth'
 import options from '@/utils/loadingOption'
 import Router from '@/router'
-import { debounce } from './debounce'
-
-let gobalLoading = null
-
-const goLogin = debounce(() => {
-  Message({
-    message: '登陆失效，请重新登陆！',
-    type: 'error',
-    duration
-  })
-}, 300)
-
-const loginOut = () => {
-  // 防抖，只执行最后一次
-  goLogin()
-  removeToken()
-  Router.replace('/login')
-}
+import { Message, Loading } from 'element-ui'
+import { getToken, removeToken } from '@/utils/auth'
+import { debounce } from './debounceOrThrottle'
 
 /**
 * @type {function}
@@ -29,17 +12,73 @@ const loginOut = () => {
 const service = axios.create({
   baseURL: process.env.VUE_APP_BASE_API, // url = base url + request url
   // withCredentials: true, // send cookies when cross-domain requests
-  timeout: 2000 // request timeout
+  timeout: 10000 // request timeout
 })
 
+/**
+ * 配置
+ */
 const axiosOption = {
   token: 'token',
   invalidStatus: [401],
   invalidCodes: [401],
   correctCodes: [10000],
   duration: 3 * 1000,
-  errorMsg: '网络走神了',
-  gobalLoading: null
+  errorMsg: '网络走神了'
+}
+
+/**
+ * 全局loading
+ */
+let gobalLoading = null
+
+/**
+ * 返回登录页
+ */
+const goLogin = debounce(() => {
+  Message({
+    message: '登录失效，请重新登录！',
+    type: 'error',
+    duration
+  })
+}, 300)
+
+/**
+ * token失效
+ */
+const loginOut = () => {
+  // 防抖，只执行最后一次
+  goLogin()
+  removeToken()
+  Router.replace('/login')
+}
+
+/**
+ * 文件流下载错误json信息处理
+ * @param {object} res 后台返回的 blob 数据
+ */
+const handlerBlob = (res) => {
+  return new Promise((resolve, reject) => {
+    const fileReader = new FileReader()
+    fileReader.readAsText(res, 'utf-8')// 读取文件，并设置编码格式为utf-8
+    fileReader.onload = () => {
+      try {
+        const { code, msg, message, errorMsg } = JSON.parse(this.result)
+        if (code) {
+          // 说明是普通对象数据，后台转换失败
+          Message({
+            message: msg || message || errorMsg,
+            type: 'error',
+            duration
+          })
+          reject(msg || message || errorMsg)
+        }
+      } catch (err) {
+        // 解析成对象失败，说明是正常的文件流
+        resolve(res)
+      }
+    }
+  })
 }
 
 const { invalidStatus, invalidCodes, correctCodes, duration, token, errorMsg } = axiosOption
@@ -50,7 +89,6 @@ service.interceptors.request.use(
     // noLoading 用于不需要loding动画的
     !config.noLoading && (gobalLoading = Loading.service(options))
     getToken() && (config.headers[token] = getToken())
-
     return config
   },
   (error) => {
@@ -66,18 +104,21 @@ service.interceptors.response.use(
 
     gobalLoading && gobalLoading.close()
 
-    if (response.config.responseType === 'blob') {
-      // 下载文件时，没有code编码
-      return res
-    }
-
-    const { data: res, status } = response
+    const { data: res, status, config: { responseType } } = response
     const { code, msg, message } = res// 状态码
 
+    // 下载文件流数据
+    if (['blob', 'arraybuffer'].includes(responseType)) {
+      return handlerBlob(res)
+    }
+
     if (status === 200) {
+      // 判断正确code编码
       if (correctCodes.includes(code)) {
         return Promise.resolve(res)
-      } if (invalidCodes.includes(code)) {
+      }
+      // 判断token失效编码
+      if (invalidCodes.includes(code)) {
         loginOut()
         return
       } else {

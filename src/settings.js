@@ -1,6 +1,8 @@
 module.exports = {
   title: '后台管理模版',
 
+  name: 'background-management', // 英文，和page.json保持一致
+
   /**
    * @type {boolean} true | false
    * @description Whether fix the header

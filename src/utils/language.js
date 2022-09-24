@@ -1,4 +1,6 @@
-const languageKey = 'sgs-ogc-language'
+import { name } from '@/settings'
+
+const languageKey = name ? `${name}_vue_admin_template_language` : 'vue_admin_template_language'
 
 export function getLanguage () {
   return localStorage.getItem(languageKey)
