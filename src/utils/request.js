@@ -61,7 +61,7 @@ const handlerBlob = (res) => {
   return new Promise((resolve, reject) => {
     const fileReader = new FileReader()
     fileReader.readAsText(res, 'utf-8')// 读取文件，并设置编码格式为utf-8
-    fileReader.onload = () => {
+    fileReader.onload = function () {
       try {
         const { code, msg, message, errorMsg } = JSON.parse(this.result)
         if (code) {
