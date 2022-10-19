@@ -43,7 +43,9 @@
           @keyup.enter.native="handleLogin"
         />
         <span class="show-pwd" @click="showPwd">
-          <svg-icon :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'" />
+          <svg-icon
+            :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'"
+          />
         </span>
       </el-form-item>
 
@@ -52,75 +54,78 @@
         type="primary"
         style="width: 100%; margin-bottom: 30px"
         @click.native.prevent="handleLogin"
-      >登 陆</el-button>
+        >登 陆</el-button
+      >
     </el-form>
   </div>
 </template>
 
 <script>
-import { login } from '@/api/user'
-import { setToken } from '@/utils/auth'
+import { login } from "@/api/user";
+import { setToken } from "@/utils/auth";
 
 export default {
-  name: 'Login',
+  name: "Login",
   data() {
     return {
       loginForm: {
-        userName: 'admin',
-        password: '123456'
+        userName: "admin",
+        password: "123456",
       },
       loginRules: {
-        userName: [{ required: true, message: '请输入用户名', trigger: 'blur' }],
-        password: [{ required: true, message: '请输入密码', trigger: 'blur' }]
+        userName: [
+          { required: true, message: "请输入用户名", trigger: "blur" },
+        ],
+        password: [{ required: true, message: "请输入密码", trigger: "blur" }],
       },
       loading: false,
-      passwordType: 'password',
-      redirect: undefined
-    }
+      passwordType: "password",
+      redirect: undefined,
+    };
   },
   watch: {
     $route: {
       handler(route) {
-        this.redirect = route.query && route.query.redirect
+        this.redirect = route.query && route.query.redirect;
       },
-      immediate: true
-    }
+      immediate: true,
+    },
   },
   methods: {
     // 显示密码
     showPwd() {
-      this.passwordType = this.passwordType === 'password' ? '' : 'password'
+      this.passwordType = this.passwordType === "password" ? "" : "password";
       this.$nextTick(() => {
-        this.$refs.password.focus()
-      })
+        this.$refs.password.focus();
+      });
     },
     // 点击登陆
     handleLogin() {
-      this.$refs.loginForm.validate(async(valid) => {
+      this.$refs.loginForm.validate(async (valid) => {
         if (valid) {
-          this.loading = true
+          this.loading = true;
           try {
             const {
-              data: { token, userName, routingTable, buttons }
-            } = await login(this.loginForm)
-            setToken(token)
-            this.$store.dispatch('user/SET_NAME', userName)
-            await this.$store.dispatch('user/SET_ROLES', [userName]) // 角色是一个数组
-            this.$store.commit('routers/SET_ROUTES', routingTable)
-            this.$store.commit('buttons/SET_BUTTONS', buttons)
-            this.$router.push({ path: this.redirect || '/' })
-            this.loading = false
+              data: { token, userName, routingTable, buttons },
+            } = await login(this.loginForm);
+            setToken(token);
+            this.$store.dispatch("user/SET_NAME", userName);
+            await this.$store.dispatch("user/SET_ROLES", [userName]); // 角色是一个数组
+            this.$store.commit("routers/SET_ROUTES", routingTable);
+            this.$store.commit("buttons/SET_BUTTONS", buttons);
+            this.$router.push({ path: this.redirect || "/" });
+            this.loading = false;
           } catch (err) {
-            this.loading = false
+            this.loading = false;
           }
         } else {
-          console.log('error submit!!')
-          return false
+          console.log("error submit!!");
+          return false;
         }
-      })
-    }
-  }
-}
+      });
+    },
+  },
+};
 </script>
 
 <style lang="scss">

@@ -14,7 +14,6 @@
 </template>
 
 <script>
-import getPageTitle from '@/utils/get-page-title'
 export default {
   name: 'SidebarLogo',
   props: {
@@ -25,12 +24,8 @@ export default {
   },
   data() {
     return {
-      logo: ''
-    }
-  },
-  computed: {
-    title() {
-      return getPageTitle()
+      title: 'Vue Admin Template',
+      logo: 'https://wpimg.wallstcn.com/69a1c46c-eb1c-4b46-8bd4-e9e686ef5251.png'
     }
   }
 }
@@ -51,7 +46,7 @@ export default {
   width: 100%;
   height: 50px;
   line-height: 50px;
-  background: rgb(48,65,86);
+  background: #2b2f3a;
   text-align: center;
   overflow: hidden;
 

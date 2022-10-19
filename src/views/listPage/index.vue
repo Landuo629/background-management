@@ -29,17 +29,22 @@
           </el-col>
           <el-col :xs="24" :md="12" :lg="8" :xl="6">
             <el-form-item>
-              <el-button type="primary" @click="queryParams.page=1;onSearch()">查询</el-button>
+              <el-button
+                type="primary"
+                @click="
+                  queryParams.page = 1;
+                  onSearch();
+                "
+                >查询</el-button
+              >
               <el-button @click="resetForm('queryForm')">重置</el-button>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row type="flex" class="operate">
-          <el-button
-            v-permission="['superAdmin']"
-            type="primary"
-            class="import"
-          >新增</el-button>
+          <el-button v-permission="['superAdmin']" type="primary" class="import"
+            >新增</el-button
+          >
         </el-row>
       </el-form>
     </header>
@@ -94,7 +99,7 @@
           width="150"
         >
           <template slot-scope="scope">
-            <img :src="scope.row.image">
+            <img :src="scope.row.image" />
           </template>
         </el-table-column>
         <el-table-column
@@ -108,33 +113,20 @@
             {{ scope.row.remark === null ? "" : scope.row.remark }}
           </template>
         </el-table-column>
-        <el-table-column
-          fixed="right"
-          align="center"
-          label="操作"
-          width="200"
-        >
+        <el-table-column fixed="right" align="center" label="操作" width="200">
           <template slot-scope="scope">
-            <el-button
-              type="text"
-              size="small"
-              @click="edit(scope.row)"
-            >编辑</el-button>
-            <el-button
-              type="text"
-              size="small"
-              @click="delForm(scope.row)"
-            >删除</el-button>
-            <el-button
-              type="text"
-              size="small"
-              @click="handleClick(scope.row)"
-            >详情</el-button>
-            <el-button
-              type="text"
-              size="small"
-              @click="handleDialog(scope.row)"
-            >弹出框</el-button>
+            <el-button type="text" size="small" @click="edit(scope.row)"
+              >编辑</el-button
+            >
+            <el-button type="text" size="small" @click="delForm(scope.row)"
+              >删除</el-button
+            >
+            <el-button type="text" size="small" @click="handleClick(scope.row)"
+              >详情</el-button
+            >
+            <el-button type="text" size="small" @click="handleDialog(scope.row)"
+              >弹出框</el-button
+            >
           </template>
         </el-table-column>
       </el-table>
@@ -156,108 +148,101 @@
       />
     </footer>
 
-    <el-dialog title="收货地址" :width="dialogWidth" :visible.sync="dialogFormVisible">
+    <el-dialog
+      title="收货地址"
+      :width="dialogWidth"
+      :visible.sync="dialogFormVisible"
+    >
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogFormVisible = false">取 消</el-button>
-        <el-button type="primary" @click="dialogFormVisible = false">确 定</el-button>
+        <el-button type="primary" @click="dialogFormVisible = false"
+          >确 定</el-button
+        >
       </div>
     </el-dialog>
   </div>
 </template>
 
 <script>
-
-import minix from '@/utils/minix'
-import {
-  getuserList,
-  deleteUser
-} from '@/api/table'
+import minix from "@/utils/minix";
+import { getuserList, deleteUser } from "@/api/table";
 
 export default {
-  name: 'ListPage',
+  name: "ListPage",
   mixins: [minix],
 
   data() {
     return {
       myBackToTopStyle: {
-        right: '50px',
-        bottom: '50px',
-        width: '40px',
-        height: '40px',
-        'border-radius': '4px',
-        'line-height': '45px', // 请保持与高度一致以垂直居中 Please keep consistent with height to center vertically
-        background: '#e7eaf1'// 按钮的背景颜色 The background color of the button
+        right: "50px",
+        bottom: "50px",
+        width: "40px",
+        height: "40px",
+        "border-radius": "4px",
+        "line-height": "45px", // 请保持与高度一致以垂直居中 Please keep consistent with height to center vertically
+        background: "#e7eaf1", // 按钮的背景颜色 The background color of the button
       },
       total: 0,
       tableCurrent: 1,
       dialogVisible: false,
       queryParams: {
-        userName: '',
-        phone: '',
-        companyName: '',
-        expectTarget: '',
-        type: '',
+        userName: "",
+        phone: "",
+        companyName: "",
+        expectTarget: "",
+        type: "",
         page: 1,
-        size: 10
+        size: 10,
       },
       tableData: [],
-      dialogFormVisible: false
-    }
+      dialogFormVisible: false,
+    };
   },
   mounted() {
-    this.onSearch()
+    this.onSearch();
   },
   methods: {
     // 查询
     async onSearch() {
       const {
-        data: { records, total }
-      } = await getuserList(this.queryParams)
-      this.total = total
-      this.tableData = records
+        data: { records, total },
+      } = await getuserList(this.queryParams);
+      this.total = total;
+      this.tableData = records;
     },
     // 重置
     resetForm(formName) {
-      this.$refs[formName].resetFields()
+      this.$refs[formName].resetFields();
     },
     // 详情
     handleClick(val) {
-      this.$router.push(`/listPageDetail?operate=check&id=${val.id}`)
+      this.$router.push(`/listPageDetail?operate=check&id=${val.id}`);
     },
     // 删除用户
     delForm(val) {
-      this.$confirm('确认删除', '确认信息', {
+      this.$confirm("确认删除", "确认信息", {
         distinguishCancelAndClose: true,
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning",
       })
-        .then(async() => {
-          await deleteUser({ id: val.id })
-          this.$message.success('操作成功')
-          this.onSearch()
+        .then(async () => {
+          await deleteUser({ id: val.id });
+          this.$message.success("操作成功");
+          this.onSearch();
         })
         .catch(() => {
-          this.$message.info('已取消')
-        })
+          this.$message.info("已取消");
+        });
     },
     // 编辑
     edit(val) {
-      this.$router.push(`/listPageDetail?operate=edit&id=${val.id}`)
+      this.$router.push(`/listPageDetail?operate=edit&id=${val.id}`);
     },
     // 点击弹出框
     handleDialog() {
-      this.dialogFormVisible = true
-    }
-  }
-}
+      this.dialogFormVisible = true;
+    },
+  },
+};
 </script>
-
-<style lang="scss" scoped>
-.operate {
-  margin-bottom: 10px;
-  .import {
-    margin-right: 10px;
-  }
-}
-</style>
