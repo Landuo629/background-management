@@ -8,16 +8,35 @@
       :label-width="labelWidth"
     >
       <el-row type="flex" class="flex-wrap">
-        <el-col v-for="item in option.column" :key="item.prop" :xs="24" :md="12" :lg="8" :xl="6">
-          <el-form-item :label="item.label">
-            <component :is="'el-'+item.component" v-model="value[item.prop]" v-bind="item.props">
-              <component :is="'el-'+item.slot.component" v-if="item.slot" />
+        <el-col
+          v-for="item in option"
+          :key="item.prop"
+          :xs="24"
+          :md="12"
+          :lg="8"
+          :xl="6"
+        >
+          <el-form-item :label="item.label" :prop="item.prop">
+            <component
+              :is="'el-' + item.component"
+              v-model="value[item.prop]"
+              clearable="true"
+              v-bind="item.attrs"
+            >
+              <div v-if="item.component === 'select'">
+                <el-option
+                  v-for="_item in item.optionList"
+                  :key="_item.value"
+                  :label="_item.label"
+                  :value="_item.value"
+                />
+              </div>
             </component>
           </el-form-item>
         </el-col>
         <el-col :xs="24" :md="12" :lg="8" :xl="6">
           <el-form-item>
-            <el-button type="primary" @click="queryParams.page=1;onSearch()">查询</el-button>
+            <el-button type="primary" @click="onSearch()">查询</el-button>
             <el-button @click="resetForm('queryForm')">重置</el-button>
           </el-form-item>
         </el-col>
@@ -27,16 +46,33 @@
 </template>
 
 <script>
+import minix from "@/utils/minix";
 export default {
+  mixins: [minix],
   props: {
     option: {
-      type: Object,
-      required: true
+      type: Array,
+      required: true,
     },
     value: {
       type: Object,
-      required: true
-    }
-  }
-}
+      required: true,
+    },
+  },
+  methods: {
+    /**
+     * 查询
+     */
+    onSearch() {
+      this.$emit("onSearch");
+    },
+    /**
+     * 重置
+     */
+    resetForm(formName) {
+      this.$refs[formName].resetFields();
+      this.$emit("resetForm");
+    },
+  },
+};
 </script>
