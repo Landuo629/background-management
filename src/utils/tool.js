@@ -9,11 +9,11 @@
  * @example vue使用方法 method是v-on绑定的方法
  * methods: { method: debounce(function() {}, 200)}
  */
-export function debounce (fn, wait = 300, immediate = false) {
+export function debounce(fn, wait = 300, immediate = false) {
   let timer = null
 
   // 返回一个函数
-  return function () {
+  return function() {
     // 是否要立即执行一次
     if (!timer && immediate) fn.apply(this, arguments)
 
@@ -37,14 +37,14 @@ export function debounce (fn, wait = 300, immediate = false) {
  * @example vue使用方法 method是v-on绑定的方法
  * methods: { method: throttle(function() {}, 200)}
  */
-export function throttle (fn, wait = 300) {
+export function throttle(fn, wait = 300) {
   // 设置一个定时器
   let timer = null
 
   // 记录上一次执行的时间戳
   let previous = 0
 
-  return function () {
+  return function() {
     // 当前的时间戳，然后减去之前的时间戳，大于设置的时间间隔
     if (Date.now() - previous > wait) {
       clearTimeout(timer)
@@ -62,5 +62,45 @@ export function throttle (fn, wait = 300) {
       }, wait)
     }
   }
+}
+
+/**
+ * 下载Excel
+ * @param {file} data 流文件
+ * @param {string} download 文件名
+ */
+export function downloadFile(data, download) {
+  const blob = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' })
+  // 获取heads中的filename文件名
+  const downloadElement = document.createElement('a')
+  // 创建下载的链接
+  const href = window.URL.createObjectURL(blob)
+  downloadElement.href = href
+  // 下载后文件名
+  downloadElement.download = download
+  document.body.appendChild(downloadElement)
+  // 点击下载
+  downloadElement.click()
+  // 下载完成移除元素
+  document.body.removeChild(downloadElement)
+  // 释放掉blob对象
+  window.URL.revokeObjectURL(href)
+}
+
+/**
+ * @description   用字符串路径来访问对象的成员
+ * @param {Object} obj 被访问的对象
+ * @param {String} path 字符串路径  xxx.yyy.zzz
+ * @return {any}
+ */
+export function getValueByPath(obj, path) {
+  const paths = path.split('.')
+  let res = obj
+  let prop
+  // eslint-disable-next-line no-cond-assign
+  while (prop = paths.shift()) {
+    res = res[prop]
+  }
+  return res
 }
 

@@ -1,0 +1,37 @@
+/*
+* el-card
+*/
+ .el-card.is-always-shadow {
+  box-shadow: none;
+  -webkit-box-shadow: none;
+}
+.el-card:hover {
+  -webkit-box-shadow: 0 1px 6px rgb(0 0 0 / 20%);
+  box-shadow: 0 1px 6px rgb(0 0 0 / 20%);
+  border-color: #eee;
+}
+
+.el-form-item {
+  margin-left: 8px;
+  margin-right: 8px;
+}
+
+.operation {
+  margin: 12px 0;
+}
+
+.el-pagination .el-select .el-input .el-input__inner {
+  height: 24px;
+  line-height: 24px;
+}
+
+.el-pagination__editor.el-input .el-input__inner {
+  height: 24px;
+  line-height: 24px;
+}
+
+.el-dialog {
+  border-radius: 6px;
+}
+
+

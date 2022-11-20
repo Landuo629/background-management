@@ -3,11 +3,10 @@ import options from '@/utils/loadingOption'
 import Router from '@/router'
 import { Message, Loading } from 'element-ui'
 import { getToken, removeToken } from '@/utils/auth'
-import { debounce } from './debounceOrThrottle'
+import { debounce } from './tool'
 
 /**
 * @type {function}
-* @param {boolean} [noLoading]  -用于不需要loding动画的
 */
 const service = axios.create({
   baseURL: process.env.VUE_APP_BASE_API, // url = base url + request url
@@ -20,6 +19,7 @@ const service = axios.create({
  */
 const axiosOption = {
   token: 'token',
+  name: 'sm-admin-name',
   invalidStatus: [401],
   invalidCodes: [401],
   correctCodes: [10000],
@@ -61,7 +61,7 @@ const handlerBlob = (res) => {
   return new Promise((resolve, reject) => {
     const fileReader = new FileReader()
     fileReader.readAsText(res, 'utf-8')// 读取文件，并设置编码格式为utf-8
-    fileReader.onload = function () {
+    fileReader.onload = function() {
       try {
         const { code, msg, message, errorMsg } = JSON.parse(this.result)
         if (code) {
@@ -81,14 +81,17 @@ const handlerBlob = (res) => {
   })
 }
 
-const { invalidStatus, invalidCodes, correctCodes, duration, token, errorMsg } = axiosOption
+const { invalidStatus, invalidCodes, correctCodes, duration, token, name, errorMsg } = axiosOption
 
 // request interceptor
 service.interceptors.request.use(
   (config) => {
-    // noLoading 用于不需要loding动画的
-    !config.noLoading && (gobalLoading = Loading.service(options))
+    // loading 用于不需要loding动画的
+    config.loading && (gobalLoading = Loading.service(options))
     getToken() && (config.headers[token] = getToken())
+    // TODO 写死的
+    config.headers[name] = 'dev-yang'
+    config.headers.language = 'CN'
     return config
   },
   (error) => {
@@ -104,9 +107,8 @@ service.interceptors.response.use(
 
     gobalLoading && gobalLoading.close()
 
-    const { data: res, status, config: { responseType } } = response
+    const { data: res, status, config: { responseType }} = response
     const { code, msg, message } = res// 状态码
-
     // 下载文件流数据
     if (['blob', 'arraybuffer'].includes(responseType)) {
       return handlerBlob(res)
@@ -123,7 +125,7 @@ service.interceptors.response.use(
         return
       } else {
         Message({
-          message: msg || message || errorMsg,
+          message: msg || message || errorMsg || '网络走神了～',
           type: 'error',
           duration
         })
@@ -135,15 +137,18 @@ service.interceptors.response.use(
   (error) => {
     gobalLoading && gobalLoading.close()
     console.log(error.response)
-    if (invalidStatus.includes(error.response.status)) {
+    const { msg, message, errorMsg } = error.response?.data || {}
+    if (invalidStatus.includes(error.response?.status)) {
       loginOut()
       return
     }
-    Message({
-      message: error,
-      type: 'error',
-      duration
-    })
+    if (msg || message || errorMsg) {
+      Message({
+        message: msg || message || errorMsg,
+        type: 'error',
+        duration
+      })
+    }
     return Promise.reject(error)
   }
 )

@@ -27,13 +27,14 @@ module.exports = [
     type: 'post',
     response: config => {
       console.log(config)
-      const { body: { page = 1, size = 10 } } = config
+      const { body: { pageNum = 1, size = 10 }} = config
       const items = data.items
       return {
         code: 10000,
         data: {
           total: items.length,
-          records: items.slice((page - 1) * size, page * size)
+          records: items.slice((pageNum - 1) * size, pageNum * size),
+          current: pageNum
         }
       }
     }

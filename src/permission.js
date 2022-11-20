@@ -13,12 +13,11 @@ const whiteList = ['/login'] // 重定向白名单
 let routingMark = false // 加载动态路由标识
 
 // 全局路由守卫前置钩子
-router.beforeEach(async (to, from, next) => {
+router.beforeEach(async(to, from, next) => {
   NProgress.start()
   document.title = getPageTitle(to.meta.title)
   const hasToken = getToken()
-  const hasGetUserInfo = store.getters.name
-  if (hasToken && hasGetUserInfo) {
+  if (hasToken) {
     if (to.path === '/login') {
       next()
       NProgress.done()
@@ -60,7 +59,7 @@ router.afterEach(() => {
 })
 
 // 加载路由方式1
-async function routerLoading1 () {
+async function routerLoading1() {
   const accessRoutes = await store.dispatch(
     'permission/generateRoutes',
     store.getters.roles
@@ -71,7 +70,7 @@ async function routerLoading1 () {
 }
 
 // 加载路由方式2
-async function routerLoading2 () {
+async function routerLoading2() {
   const { addRoutes, routes } = store.getters
   router.addRoutes(addRoutes)
   router.options.routes = routes

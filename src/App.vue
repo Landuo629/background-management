@@ -26,10 +26,6 @@ export default {
     }
   }
   // 公共样式
-  .el-table {
-    border: 1px solid #ebeef5;
-    border-bottom: none;
-  }
   .headerRow {
     background: #dce0e6;
   }
@@ -51,10 +47,6 @@ export default {
   }
   .flex-wrap {
     flex-wrap: wrap;
-  }
-  .tableHead {
-    background: #eef1f6;
-    color: #606266;
   }
   .layoutFooter {
     margin-top: 20px;
