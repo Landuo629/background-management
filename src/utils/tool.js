@@ -104,3 +104,14 @@ export function getValueByPath(obj, path) {
   return res
 }
 
+/**
+ * @description 将数组转变为枚举
+ * @param {Array} array 数组数据
+ * @param {String} key 枚举的key值
+ */
+export function arrayToEnum(array, key) {
+  return array.reduce((prev, cur) => {
+    prev[cur[key]] = cur
+    return prev
+  }, {})
+}
