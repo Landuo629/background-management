@@ -135,3 +135,37 @@ export function copyValue(value) {
     Message.error('复制失败，请手动复制')
   }
 }
+
+/**
+ * 13888888888 -> 138****8888
+ * @param {String|Number} mobile 电话号码
+ * @returns {String}
+ */
+export function secrecyMobile(mobile) {
+  mobile = String(mobile)
+  if (!/\d{11}/.test(mobile)) {
+    return mobile
+  }
+  return mobile.replace(/(\d{3})(\d{4})(\d{4})/, '$1****$3')
+}
+
+/**
+ * 数组对象深拷贝
+ * @param obj 被拷贝对象
+ * @returns {Object}
+ */
+export default function cloneObj(obj) {
+  let str = null
+  let newobj = obj.constructor === Array ? [] : {}
+  if (typeof obj !== 'object') {
+    return
+  } else if (window && window.JSON) {
+    str = JSON.stringify(obj) // 系列化对象
+    newobj = JSON.parse(str) // 还原
+  } else {
+    for (var i in obj) {
+      newobj[i] = typeof obj[i] === 'object' ? cloneObj(obj[i]) : obj[i]
+    }
+  }
+  return newobj
+}
