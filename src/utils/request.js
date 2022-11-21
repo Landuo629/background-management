@@ -1,5 +1,5 @@
 import axios from 'axios'
-import options from '@/utils/loadingOption'
+import { loadingOption } from '@/settings'
 import Router from '@/router'
 import { Message, Loading } from 'element-ui'
 import { getToken, removeToken } from '@/utils/auth'
@@ -87,7 +87,7 @@ const { invalidStatus, invalidCodes, correctCodes, duration, token, name, errorM
 service.interceptors.request.use(
   (config) => {
     // loading 用于不需要loding动画的
-    config.loading && (gobalLoading = Loading.service(options))
+    config.loading && (gobalLoading = Loading.service(loadingOption))
     getToken() && (config.headers[token] = getToken())
     // TODO 写死的
     config.headers[name] = 'dev-yang'

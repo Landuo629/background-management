@@ -22,5 +22,14 @@ module.exports = {
    * @value 1 根据不同的角色
    * @value 2 后端返回路由
    */
-  routingMode: 0
+  routingMode: 0,
+
+  /**
+   * loading 配置
+   */
+  loadingOption: {
+    text: '加载中...',
+    spinner: 'el-icon-loading',
+    background: 'rgba(0, 0, 0, 0.7)'
+  }
 }
