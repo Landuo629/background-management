@@ -115,3 +115,23 @@ export function arrayToEnum(array, key) {
     return prev
   }, {})
 }
+
+import { Message } from 'element-ui'
+/**
+ * @description 复制文本
+ * @param {String} value 文本数据
+ */
+export function copyValue(value) {
+  try {
+    const copyTextarea = document.createElement('textarea')
+    console.log(copyTextarea.nodeType)
+    document.body.appendChild(copyTextarea)
+    copyTextarea.innerText = value
+    copyTextarea.select()
+    document.execCommand('Copy')
+    copyTextarea.parentNode.removeChild(copyTextarea)
+    Message.success('复制成功')
+  } catch (err) {
+    Message.error('复制失败，请手动复制')
+  }
+}
