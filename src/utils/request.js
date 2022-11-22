@@ -81,16 +81,13 @@ const handlerBlob = (res) => {
   })
 }
 
-const { invalidStatus, invalidCodes, correctCodes, duration, token, name, errorMsg } = axiosOption
+const { invalidStatus, invalidCodes, correctCodes, duration, token, errorMsg } = axiosOption
 
 // request interceptor
 service.interceptors.request.use(
   (config) => {
-    // loading 用于不需要loding动画的
     config.loading && (gobalLoading = Loading.service(loadingOption))
     getToken() && (config.headers[token] = getToken())
-    // TODO 写死的
-    config.headers[name] = 'dev-yang'
     config.headers.language = 'CN'
     return config
   },

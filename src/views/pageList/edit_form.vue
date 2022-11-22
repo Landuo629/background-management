@@ -5,6 +5,7 @@
     v-bind="dialogAttributes"
     @close="dialogVisible = false"
     @closed="$refs.form.resetFields()"
+    @keydown.enter.native="onSubmit"
   >
     <el-form ref="form" :model="formData" :rules="rules" v-bind="formAttributes">
       <el-form-item label="昵称" prop="nickName">
