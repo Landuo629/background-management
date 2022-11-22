@@ -10,7 +10,9 @@
     "build:uat": "vue-cli-service build --mode uat",
     "serve:prod": "vue-cli-service serve --mode prod",
     "build:prod": "vue-cli-service build --mode prod",
-    "serve:mock": "vue-cli-service serve --mode production"
+    "serve:mock": "vue-cli-service serve --mode production",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix"
   },
   "dependencies": {
     "axios": "0.18.1",
