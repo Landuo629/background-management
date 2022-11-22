@@ -1,4 +1,5 @@
-import { asyncRoutes, constantRoutes } from '@/router'
+import { constantRoutes } from '@/router'
+import asyncRoutes from '@/router/asyncRouters'
 import routes404 from '@/router/404routes'
 
 /**
@@ -6,7 +7,7 @@ import routes404 from '@/router/404routes'
  * @param roles
  * @param route
  */
-function hasPermission (roles, route) {
+function hasPermission(roles, route) {
   if (route.meta && route.meta.roles) {
     return roles.some((role) => route.meta.roles.includes(role))
   } else {
@@ -19,7 +20,7 @@ function hasPermission (roles, route) {
  * @param routes asyncRoutes
  * @param roles
  */
-export function filterAsyncRoutes (routes, roles) {
+export function filterAsyncRoutes(routes, roles) {
   const res = []
   routes.forEach((route) => {
     const tmp = { ...route }
@@ -46,7 +47,7 @@ const mutations = {
 }
 
 const actions = {
-  generateRoutes ({ commit }, roles) {
+  generateRoutes({ commit }, roles) {
     return new Promise((resolve) => {
       const accessedRoutes = [...filterAsyncRoutes(asyncRoutes, roles), ...routes404]
       commit('SET_ROUTES', accessedRoutes)
