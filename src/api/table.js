@@ -3,26 +3,36 @@
  */
 import request from '@/utils/request'
 
-// 分页查看用户列表
-export function getuserList (data) {
+// 分页查看列表
+export function getTableList(data) {
   return request({
-    url: `/admin/user/list`,
+    url: `/admin/table/list`,
+    method: 'post',
+    data
+  })
+}
+
+// 新增或者编辑数据
+export function addTable(data) {
+  return request({
+    url: `/admin/table/add`,
     method: 'post',
     data
   })
 }
 
 // 删除用户
-export function deleteUser (params) {
+export function delTable(params) {
   return request({
-    url: `/admin/user/delete/${params.id}`,
-    method: 'post'
+    url: `/admin/table/delete`,
+    method: 'post',
+    params
   })
 }
 // 查看用户详情
-export function getDetail (params) {
+export function getTableDetail(params) {
   return request({
-    url: `/admin/user/detail/${params.id}`,
+    url: `/admin/table/detail/${params.id}`,
     method: 'get',
     noLoading: true
   })

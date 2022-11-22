@@ -23,7 +23,7 @@ try {
 
 module.exports = [
   {
-    url: '/admin/user/list',
+    url: '/admin/table/list',
     type: 'post',
     response: config => {
       console.log(config)
@@ -40,9 +40,17 @@ module.exports = [
     }
   },
   {
-    url: '/admin/user/delete\.*',
+    url: '/admin/table/add',
     type: 'post',
     response: config => {
+      const { body } = config
+      if (!body.id) {
+        // 新增
+        data.items.unshift(body)
+      } else {
+        // 编辑
+        data.items[data.items.findIndex(item => item.id === body.id)] = body
+      }
       return {
         code: 10000,
         data: {
@@ -52,7 +60,21 @@ module.exports = [
     }
   },
   {
-    url: '/admin/user/detail\.*',
+    url: '/admin/table/delete',
+    type: 'post',
+    response: config => {
+      const { id } = config.query
+      data.items.splice(data.items.findIndex(item => item.id === id), 1)
+      return {
+        code: 10000,
+        data: {
+          msg: '删除成功'
+        }
+      }
+    }
+  },
+  {
+    url: '/admin/table/detail\.*',
     type: 'get',
     response: config => {
       return {

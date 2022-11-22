@@ -39,7 +39,7 @@
 <script>
 import { dialogOption } from '@/utils/minix'
 
-import { saveGoodsSpec, updateGoodsSpec, getGoodsLang } from '@/api/user'
+import { addTable } from '@/api/table'
 export default {
   name: 'EditForm',
   mixins: [dialogOption],
@@ -89,13 +89,12 @@ export default {
       this.$refs.form.validate(async(valid) => {
         if (valid) {
           const { formData } = this
-          console.log(formData)
           this.loading = true
           try {
-            await (formData.id ? updateGoodsMark : saveGoodsMark)(this.formData)
-            this.$emit('submit', true)
+            await addTable(formData)
+            this.$emit('handleSearch')
             this.dialogVisible = false
-            this.$message.success(this.$t('operationSucceeded'))
+            this.$message.success('操作成功')
           } catch (err) {
             console.error(err)
           }

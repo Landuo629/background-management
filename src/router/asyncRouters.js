@@ -10,7 +10,7 @@ export default [
         path: '/pageList',
         name: 'pageList',
         component: () => import('@/views/pageList/index'),
-        meta: { title: '列表页', icon: 'homePage' }
+        meta: { title: '列表页', icon: 'el-icon-tickets' }
       }
     ]
   }

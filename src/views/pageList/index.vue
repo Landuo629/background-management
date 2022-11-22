@@ -145,7 +145,7 @@
       />
     </el-card>
 
-    <edit-form :title="editData.title" :visible.sync="editData.visible" :form-data="editData.formData" :sex-enum="sexEnum" />
+    <edit-form :title="editData.title" :visible.sync="editData.visible" :form-data="editData.formData" :sex-enum="sexEnum" @handleSearch="handleSearch" />
   </div>
 </template>
 
@@ -155,7 +155,7 @@ import editForm from './edit_form'
 
 import { searchAttr } from '@/utils/minix'
 
-import { getuserList } from '@/api/table'
+import { getTableList, delTable } from '@/api/table'
 export default {
   name: 'PageList',
   components: { searchForm, editForm },
@@ -237,7 +237,10 @@ export default {
     tableDel(row) {
       this.$confirm('此操作将删除此数据, 是否继续?', '确认操作', {
         type: 'warning'
-      }).then(() => {
+      }).then(async() => {
+        const { id } = row
+        await delTable({ id })
+        this.handleSearch()
         this.$message.success('操作成功!')
       }).catch(() => {
         this.$message.info('已取消操作')
@@ -248,7 +251,7 @@ export default {
      */
     async getTableData() {
       this.loading = true
-      const { data } = await getuserList(this.searchForm)
+      const { data } = await getTableList(this.searchForm)
       this.tableData = data
       this.loading = false
     },
