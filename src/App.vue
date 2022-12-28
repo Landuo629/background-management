@@ -17,7 +17,11 @@ export default {
 
 <style lang="scss">
 
-.pointer {
+  .flex-wrap {
+    flex-wrap: wrap;
+  }
+
+  .pointer {
   cursor: pointer;
 }
 
@@ -48,4 +52,5 @@ export default {
   @extend .textOverflow;
   -webkit-line-clamp: 4;
 }
+
 </style>

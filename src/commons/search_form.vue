@@ -39,7 +39,7 @@ export default {
       box-shadow: 0 2px 12px 0 rgb(0 0 0 / 10%);
     }
     .content {
-      padding: 10px 10px 0 0;
+      padding: 10px 10px 0 0 !important;
       background-color: #f0f0f0;
       border-radius: 0.4em;
       ::v-deep .el-date-editor--daterange.el-input__inner {

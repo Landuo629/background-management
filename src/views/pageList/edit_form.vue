@@ -4,12 +4,12 @@
     :visible.sync="dialogVisible"
     v-bind="dialogAttributes"
     @close="dialogVisible = false"
-    @closed="$refs.form.resetFields()"
+    @open="$nextTick(() => $refs.form.clearValidate())"
     @keydown.enter.native="onSubmit"
   >
     <el-form ref="form" :model="formData" :rules="rules" v-bind="formAttributes">
       <el-form-item label="昵称" prop="nickName">
-        <el-input v-model="formData.nickName" />
+        <el-input v-model="formData.nickName" clearable :minlength="200" />
       </el-form-item>
       <el-form-item label="性别" prop="sex">
         <el-select v-model="formData.sex">
@@ -45,18 +45,6 @@ export default {
   name: 'EditForm',
   mixins: [dialogOption],
   props: {
-    visible: {
-      type: Boolean,
-      required: true
-    },
-    formData: {
-      type: Object,
-      required: true
-    },
-    title: {
-      type: String,
-      required: true
-    },
     sexEnum: {
       type: Object,
       required: true
@@ -69,39 +57,43 @@ export default {
       sort: { required: true, message: '排序不能为空', trigger: 'blur' }
     }
     return {
-      loading: false
-    }
-  },
-  computed: {
-    dialogVisible: {
-      get() {
-        return this.visible
+      dialogVisible: false,
+      formData: {
+        nickName: '',
+        sex: '',
+        sort: 0
       },
-      set(val) {
-        this.$emit('update:visible', val)
-      }
+      title: '新增',
+      loading: false
     }
   },
   methods: {
     /**
+     * 打开对话框
+     * @param {Object} data
+     */
+    open(data) {
+      const { formData = {}, title } = data
+      this.formData = { ...this.$options.data.call(this).formData, ...formData }
+      this.title = title ?? this.title
+      this.dialogVisible = true
+    },
+    /**
      * 确认
      */
-    onSubmit() {
-      this.$refs.form.validate(async(valid) => {
-        if (valid) {
-          const { formData } = this
-          this.loading = true
-          try {
-            await addTable(formData)
-            this.$emit('handleSearch')
-            this.dialogVisible = false
-            this.$message.success('操作成功')
-          } catch (err) {
-            console.error(err)
-          }
+    async onSubmit() {
+      await this.$refs.form.validate()
+      const { formData } = this
+      this.loading = true
+      addTable(formData)
+        .then(() => {
+          this.$emit('handleSearch')
+          this.dialogVisible = false
+          this.$message.success('操作成功')
+        })
+        .finally(() => {
           this.loading = false
-        }
-      })
+        })
     }
   }
 }

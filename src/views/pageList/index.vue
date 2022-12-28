@@ -16,7 +16,6 @@
             <el-form-item label="输入框" prop="text">
               <el-input
                 v-model="searchForm.text"
-                clearable
                 placeholder="请输入输入框"
               />
             </el-form-item>
@@ -25,7 +24,6 @@
                 v-model.number="searchForm.number"
                 type="number"
                 title=" "
-                clearable
                 placeholder="请输入数字输入框"
               />
             </el-form-item>
@@ -64,7 +62,7 @@
       </searchForm>
 
       <el-row class="operation">
-        <el-button type="primary" size="small" @click="addData">新增</el-button>
+        <el-button type="primary" icon="el-icon-plus" size="small" @click="addData">新增</el-button>
       </el-row>
 
       <el-table v-loading="loading" :data="tableData.records" v-bind="tableAttributes">
@@ -145,7 +143,7 @@
       />
     </el-card>
 
-    <edit-form :title="editData.title" :visible.sync="editData.visible" :form-data="editData.formData" :sex-enum="sexEnum" @handleSearch="handleSearch" />
+    <edit-form ref="editRef" :sex-enum="sexEnum" @handleSearch="handleSearch" />
   </div>
 </template>
 
@@ -195,16 +193,7 @@ export default {
         total: 100,
         current: 1
       },
-      loading: false,
-      editData: {
-        formData: {
-          nickName: '',
-          sex: '',
-          sort: 0
-        },
-        visible: false,
-        title: ''
-      }
+      loading: false
     }
   },
   created() {
@@ -215,36 +204,30 @@ export default {
      * 新增数据
      */
     addData() {
-      this.editData = {
-        formData: this.$options.data.call(this).editData.formData,
-        visible: true,
+      this.$refs.editRef.open({
         title: '新增'
-      }
+      })
     },
     /**
      * 编辑数据
      */
-    tableEdit(row) {
-      this.editData = {
-        formData: { ...row },
-        visible: true,
-        title: '编辑'
-      }
+    tableEdit(formData) {
+      this.$refs.editRef.open({
+        title: '编辑',
+        formData
+      })
     },
     /**
      * 删除数据
      */
-    tableDel(row) {
-      this.$confirm('此操作将删除此数据, 是否继续?', '确认操作', {
+    async tableDel(row) {
+      await this.$confirm('此操作将删除此数据, 是否继续?', '确认操作', {
         type: 'warning'
-      }).then(async() => {
-        const { id } = row
-        await delTable({ id })
-        this.handleSearch()
-        this.$message.success('操作成功!')
-      }).catch(() => {
-        this.$message.info('已取消操作')
       })
+      const { id } = row
+      await delTable({ id })
+      this.handleSearch()
+      this.$message.success('操作成功!')
     },
     /**
      * 获取列表数据

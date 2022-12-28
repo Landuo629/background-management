@@ -54,7 +54,7 @@ module.exports = [
       return {
         code: 10000,
         data: {
-          msg: '删除成功'
+          msg: '操作成功'
         }
       }
     }
