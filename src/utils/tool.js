@@ -1,3 +1,5 @@
+import { Message } from 'element-ui'
+
 /**
  * 防抖： 管事件触发频率多高，一定在事件触发 n 秒后才执行，如果在一个事件执行的 n秒内又触发了这个事件，就以新的事件的时间为准
  * @param {function} fn 被调用的函数
@@ -116,7 +118,6 @@ export function arrayToEnum(array, key) {
   }, {})
 }
 
-import { Message } from 'element-ui'
 /**
  * @description 复制文本
  * @param {String} value 文本数据
@@ -168,4 +169,78 @@ export default function cloneObj(obj) {
     }
   }
   return newobj
+}
+
+/**
+ * 并发请求数量控制
+ * @param {Array} tasks 请求的数组
+ * @param {Number} max 最大请求数量
+ * @returns {Array} 处理完的数组
+ */
+export function sendRequest(tasks, max) {
+  let index = 0
+  let together = Array.from({ length: max })
+  const result = []
+
+  together = together.map(() => {
+    return new Promise((resolve) => {
+      const run = () => {
+        if (index >= tasks.length) {
+          resolve()
+          return
+        }
+
+        const cur = index
+        const task = tasks[index++]
+        task()
+          .then(res => {
+            result[cur] = res
+            run()
+          })
+          .catch(err => {
+            result[cur] = err
+            run()
+          })
+      }
+      run()
+    })
+  })
+
+  return new Promise((resolve) => {
+    Promise.all(together).then(() => {
+      resolve(result)
+    })
+  })
+}
+
+/**
+ * 获取UUID
+ * @returns {String}
+ */
+export function getUUID() {
+  return 'xxxxxxxxxxxx4xxxyxxxxxxxxxxxxxxx'.replace(/[xy]/g, c => {
+    return (c === 'x' ? (Math.random() * 16 | 0) : ('r&0x3' | '0x8')).toString(16)
+  })
+}
+
+/**
+ * 创建分类树结构数据，根据父子id将数组转换为树结构
+ * @param {Array} data 数组
+ * @param {String|Number} childrenId 子 id
+ * @param {String|Number} parentId 父 id
+ * @returns 树结构
+ */
+export function createTreeData(data, childrenId, parentId) {
+  const cloneData = JSON.parse(JSON.stringify(data)) // 对源数据深度克隆
+  const tree = cloneData.filter(father => {
+    // 循环所有项
+    const branchArr = cloneData.filter(child => {
+      return father[childrenId] == child[parentId] // 返回每一项的子级数组
+    })
+    if (branchArr.length > 0) {
+      father.children = branchArr // 如果存在子级，则给父级添加一个children属性，并赋值
+    }
+    return father[parentId] == null // 返回第一层
+  })
+  return tree
 }
