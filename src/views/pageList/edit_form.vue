@@ -38,12 +38,9 @@
 </template>
 
 <script>
-import { dialogOption } from '@/utils/minix'
-
 import { addTable } from '@/api/table'
 export default {
   name: 'EditForm',
-  mixins: [dialogOption],
   props: {
     sexEnum: {
       type: Object,

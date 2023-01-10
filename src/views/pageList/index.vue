@@ -6,7 +6,6 @@
           ref="queryForm"
           class="search-form"
           :model="searchForm"
-          v-bind="formAttributes"
         >
           <el-row
             type="flex"
@@ -65,7 +64,7 @@
         <el-button type="primary" icon="el-icon-plus" size="small" @click="addData">新增</el-button>
       </el-row>
 
-      <el-table v-loading="loading" :data="tableData.records" v-bind="tableAttributes">
+      <el-table v-loading="loading" :data="tableData.records">
         <el-table-column
           type="selection"
           align="center"
@@ -73,26 +72,22 @@
         />
         <!-- 序号 -->
         <el-table-column
-          v-bind="tableColumnAttributes"
           label="序号"
           type="index"
           width="55"
         />
         <el-table-column
           prop="nickName"
-          v-bind="tableColumnAttributes"
           label="昵称"
           min-width="150"
         />
         <el-table-column
           prop="userName"
-          v-bind="tableColumnAttributes"
           label="姓名"
           min-width="150"
         />
         <el-table-column
           prop="sex"
-          v-bind="tableColumnAttributes"
           label="性别"
           min-width="150"
         >
@@ -102,25 +97,21 @@
         </el-table-column>
         <el-table-column
           prop="birthday"
-          v-bind="tableColumnAttributes"
           label="生日"
           min-width="150"
         />
         <el-table-column
           prop="phone"
-          v-bind="tableColumnAttributes"
           label="电话"
           min-width="150"
         />
         <el-table-column
           prop="remark"
-          v-bind="tableColumnAttributes"
           label="备注"
           min-width="150"
         />
         <el-table-column
           fixed="right"
-          v-bind="tableColumnAttributes"
           align="center"
           label="操作"
           width="220"
@@ -134,7 +125,6 @@
 
       <!-- 分页 -->
       <el-pagination
-        v-bind="paginationAttributes"
         :current-page.sync="tableData.current"
         :page-size="searchForm.size"
         :total="tableData.total"
@@ -151,13 +141,10 @@
 import searchForm from '@/commons/search_form'
 import editForm from './edit_form'
 
-import { searchAttr } from '@/utils/minix'
-
 import { getTableList, delTable } from '@/api/table'
 export default {
   name: 'PageList',
   components: { searchForm, editForm },
-  mixins: [searchAttr],
   data() {
     this.options = [{
       value: '选项1',
